@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MechKit - Mechanical Engineering Toolkit</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f6f7f9;--sf:#fff;--tx:#1a1f2b;--mu:#5b6475;--ac:#0b5fd1;--ac2:#e4eeff;--bd:#d5dae3;--ok:#0a7a45}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#12151c;--sf:#1b1f29;--tx:#e8ebf2;--mu:#9aa3b5;--ac:#6aa8ff;--ac2:#1f3354;--bd:#343b4b;--ok:#4cd08a}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#12151c;--sf:#1b1f29;--tx:#e8ebf2;--mu:#9aa3b5;--ac:#6aa8ff;--ac2:#1f3354;--bd:#343b4b;--ok:#4cd08a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--sf);padding:8px;z-index:9}
+header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 16px;background:var(--sf);border-bottom:1px solid var(--bd)}
+h1{font-size:1.2rem;margin:0}h2{margin:0 0 4px}
+input,select,button{font:inherit;color:var(--tx);background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;min-height:40px}
+input[type=search]{flex:1;min-width:160px;max-width:360px}
+button{cursor:pointer}button:hover{background:var(--ac2)}
+.wrap{display:grid;grid-template-columns:230px minmax(0,1fr) 260px;gap:16px;padding:16px;max-width:1300px;margin:auto}
+nav,aside,main{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px;align-self:start}
+nav h3{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin:12px 0 4px}nav h3:first-child{margin-top:0}
+nav a{display:block;padding:6px 10px;border-radius:6px;color:var(--tx);text-decoration:none}
+nav a:hover{background:var(--ac2)}nav a[aria-current]{background:var(--ac);color:var(--bg);font-weight:600}
+.p{color:var(--mu);margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.f label{display:block;font-weight:600;font-size:.9rem;margin-bottom:2px}.f small{color:var(--mu);font-weight:400}
+.row{display:flex;gap:6px}.row input,.row select:first-child{flex:1;min-width:0}.row select[data-pick]{width:52px;padding:0 4px}
+.f>select,.f>input{width:100%}
+.res{margin-top:18px;border-top:1px solid var(--bd);padding-top:12px}
+.o{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--bd)}
+.o b{font-size:1.15rem;color:var(--ok)}.o .a{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
+.o .a select{max-width:100%;min-height:34px;padding:4px 8px}.o .a button{min-height:34px;padding:4px 10px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left;white-space:nowrap}
+td button{min-height:28px;padding:2px 8px;border-style:dashed}
+.bin li{display:flex;justify-content:space-between;gap:6px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:.9rem;list-style:none}
+.bin ul{padding:0;margin:8px 0}.bin small{color:var(--mu);display:block}
+.note{color:var(--mu);font-size:.85rem;margin-top:12px}
+#st{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:8px 14px;border-radius:20px;opacity:0;transition:opacity .2s;pointer-events:none}#st.on{opacity:1}
+@media(max-width:960px){.wrap{grid-template-columns:1fr}nav{display:none}nav.open{display:block}#menu{display:inline-block}}
+@media(min-width:961px){#menu{display:none}}
+</style></head><body>
+<a class="skip" href="#main">Skip to tool</a>
+<header><button id="menu" aria-expanded="false" aria-controls="nav">☰ Tools</button><h1>MechKit</h1>
+<input type="search" id="q" placeholder="Search tools…" aria-label="Search tools"></header>
+<div class="wrap"><nav id="nav" aria-label="Tools"></nav><main id="main" tabindex="-1"></main>
+<aside id="bin" class="bin" aria-label="Chain bin"></aside></div>
+<div id="st" role="status" aria-live="polite"></div>
+<script>
+const PI=Math.PI,I=(k,l,u,kind,v)=>({k,l,u,kind,v}),O=(l,u,kind,val)=>({l,u,kind,val}),Sel=(k,l,o,v)=>({k,l,o,v});
+const U={Length:{mm:1,m:1000,cm:10,in:25.4,ft:304.8},Force:{N:1,kN:1000,lbf:4.44822,kgf:9.80665},Stress:{MPa:1,kPa:.001,Pa:1e-6,bar:.1,psi:.00689476,ksi:6.89476},Energy:{J:1,kJ:1000,Wh:3600,BTU:1055.06,'ft·lbf':1.35582},Power:{W:1,kW:1000,hp:745.7,'BTU/h':.29307},Mass:{kg:1,g:.001,lb:.453592},Torque:{'N·m':1,'lbf·ft':1.35582,'lbf·in':.112985}};
+const UO=Object.entries(U).flatMap(([c,m])=>Object.keys(m).map(u=>[c+'|'+u,u+' ('+c+')']));
+const T=[
+{id:'conv',c:'Basics',n:'Unit converter',d:'Convert between common engineering units.',in:[I('v','Value','','any',1),Sel('a','From',UO,'Length|in'),Sel('b','To',UO,'Length|mm')],
+run:v=>{const[ca,ua]=v.a.split('|'),[cb,ub]=v.b.split('|');return ca!=cb?[{msg:'Pick units from the same category.'}]:[O('Result',ub,'any',v.v*U[ca][ua]/U[cb][ub])]}},
+{id:'sec',c:'Mechanics',n:'Section properties',d:'Area, second moment, section modulus for common cross-sections.',in:[Sel('s','Shape',[['r','Rectangle'],['c','Solid circle'],['h','Hollow circle']],'r'),I('b','Width b / outer dia D','mm','L',40),I('h','Height h (rectangle)','mm','L',60),I('d','Inner dia d (hollow)','mm','L',30)],
+run:v=>{const{s,b,h,d}=v;let A,Ix,c,J;if(s=='r'){A=b*h;Ix=b*h**3/12;c=h/2}else{const di=s=='h'?d:0;A=PI*(b*b-di*di)/4;Ix=PI*(b**4-di**4)/64;c=b/2;J=2*Ix}
+return[O('Area A','mm²','A',A),O('Second moment I','mm⁴','I',Ix),O('Extreme fibre c','mm','L',c),O('Section modulus Z = I/c','mm³','Z',Ix/c),...(J?[O('Polar moment J','mm⁴','I',J)]:[])]}},
+{id:'ax',c:'Mechanics',n:'Axial stress & elongation',d:'Direct stress, strain and elongation of a bar under axial load.',in:[I('F','Axial force F','N','F',10000),I('A','Area A','mm²','A',200),I('L','Length L','mm','L',500),I('E','Young’s modulus E','GPa','E',205)],
+run:v=>{const s=v.F/v.A,e=s/(v.E*1000);return[O('Stress σ = F/A','MPa','S',s),O('Strain ε','','n',e),O('Elongation δ = FL/AE','mm','L',e*v.L)]}},
+{id:'beam',c:'Mechanics',n:'Beam bending',d:'Maximum moment, bending stress and deflection for standard cases.',in:[Sel('t','Case',[['ssc','Simply supported, centre point load'],['ssu','Simply supported, uniform load'],['cp','Cantilever, end point load'],['cu','Cantilever, uniform load']],'ssc'),I('L','Span L','mm','L',1000),I('P','Load: P (N) or w (N/mm)','','F',2000),I('E','Modulus E','GPa','E',205),I('I','Second moment I','mm⁴','I',200000),I('c','Extreme fibre c','mm','L',15)],
+run:v=>{const{L,P,I:i,c}=v,e=v.E*1000,m={ssc:[P*L/4,P*L**3/(48*e*i)],ssu:[P*L*L/8,5*P*L**4/(384*e*i)],cp:[P*L,P*L**3/(3*e*i)],cu:[P*L*L/2,P*L**4/(8*e*i)]}[v.t];
+return[O('Max moment','N·m','T',m[0]/1000),O('Max bending stress σ = Mc/I','MPa','S',m[0]*c/i),O('Max deflection','mm','L',m[1])]}},
+{id:'tor',c:'Mechanics',n:'Torsion of solid shaft',d:'Shear stress and angle of twist.',in:[I('T','Torque T','N·m','T',200),I('d','Diameter d','mm','L',30),I('L','Length L','mm','L',600),I('G','Shear modulus G','GPa','E',79)],
+run:v=>{const J=PI*v.d**4/32;return[O('Shear stress τ','MPa','S',16*v.T*1000/(PI*v.d**3)),O('Angle of twist','deg','deg',v.T*1000*v.L/(J*v.G*1000)*180/PI),O('Polar moment J','mm⁴','I',J)]}},
+{id:'buck',c:'Mechanics',n:'Euler column buckling',d:'Critical buckling load of a slender column.',in:[I('E','Modulus E','GPa','E',205),I('I','Second moment I','mm⁴','I',50000),I('L','Length L','mm','L',800),Sel('K','End condition (K)',[[1,'Pinned–pinned (1.0)'],[.5,'Fixed–fixed (0.5)'],[.7,'Fixed–pinned (0.7)'],[2,'Fixed–free (2.0)']],1)],
+run:v=>[O('Critical load Pcr','N','F',PI**2*v.E*1000*v.I/(v.K*v.L)**2)]},
+{id:'mohr',c:'Stress',n:'Principal & von Mises stress',d:'Plane stress state with factor of safety against yield.',in:[I('x','σx','MPa','S',100),I('y','σy','MPa','S',-20),I('t','τxy','MPa','S',40),I('Sy','Yield strength Sy','MPa','S',350)],
+run:v=>{const a=(v.x+v.y)/2,r=Math.hypot((v.x-v.y)/2,v.t),s1=a+r,s2=a-r,vm=Math.sqrt(s1*s1-s1*s2+s2*s2);return[O('Principal σ1','MPa','S',s1),O('Principal σ2','MPa','S',s2),O('Max shear τmax','MPa','S',r),O('Von Mises σ′','MPa','S',vm),O('Factor of safety Sy/σ′','','n',v.Sy/vm)]}},
+{id:'pv',c:'Stress',n:'Thin-wall pressure vessel',d:'Valid when d/t > 10.',in:[I('p','Internal pressure p','MPa','S',2),I('d','Inner diameter d','mm','L',300),I('t','Wall thickness t','mm','L',5)],
+run:v=>[O('Hoop stress pd/2t','MPa','S',v.p*v.d/(2*v.t)),O('Longitudinal / sphere pd/4t','MPa','S',v.p*v.d/(4*v.t))]},
+{id:'bolt',c:'Machine elements',n:'Bolt preload & torque',d:'Tensile stress area, stress and tightening torque (T = K·d·F).',in:[I('d','Nominal diameter d','mm','L',10),I('p','Thread pitch','mm','L',1.5),I('F','Preload F','N','F',20000),I('K','Torque coefficient K','','n',.2)],
+run:v=>{const At=PI/4*(v.d-.9382*v.p)**2;return[O('Tensile stress area At','mm²','A',At),O('Bolt stress F/At','MPa','S',v.F/At),O('Tightening torque','N·m','T',v.K*v.d*v.F/1000)]}},
+{id:'spr',c:'Machine elements',n:'Compression spring',d:'Spring rate k = Gd⁴/8D³N and force at deflection.',in:[I('d','Wire dia d','mm','L',2),I('D','Mean coil dia D','mm','L',16),I('N','Active coils','','n',8),I('G','Shear modulus G','GPa','E',79),I('x','Deflection x','mm','L',10)],
+run:v=>{const k=v.G*1000*v.d**4/(8*v.D**3*v.N);return[O('Spring rate k','N/mm','ks',k),O('Force F = kx','N','F',k*v.x)]}},
+{id:'gear',c:'Machine elements',n:'Spur gear pair',d:'Ratio, pitch diameters, centre distance, output speed and torque (ideal).',in:[I('z1','Pinion teeth','','n',20),I('z2','Gear teeth','','n',60),I('m','Module m','mm','L',2),I('n1','Input speed','rpm','N',1500),I('t1','Input torque','N·m','T',50)],
+run:v=>{const r=v.z2/v.z1;return[O('Ratio','','n',r),O('Pinion pitch dia','mm','L',v.m*v.z1),O('Gear pitch dia','mm','L',v.m*v.z2),O('Centre distance','mm','L',v.m*(v.z1+v.z2)/2),O('Output speed','rpm','N',v.n1/r),O('Output torque','N·m','T',v.t1*r)]}},
+{id:'pwr',c:'Machine elements',n:'Power, torque & speed',d:'P = T·ω. Choose which to solve for.',in:[Sel('m','Solve for',[['p','Power'],['t','Torque']],'p'),I('T','Torque (used for power)','N·m','T',100),I('P','Power (used for torque)','kW','Pk',15),I('N','Speed N','rpm','N',1500)],
+run:v=>{const w=v.N*2*PI/60,P=v.m=='p'?v.T*w/1000:v.P,Tq=v.m=='p'?v.T:v.P*1000/w;return[O('Power','kW','Pk',P),O('Torque','N·m','T',Tq),O('Angular speed ω','rad/s','n',w)]}},
+{id:'pipe',c:'Fluids',n:'Pipe flow & pressure drop',d:'Velocity, Reynolds number and Darcy–Weisbach loss (Swamee–Jain). Defaults: water.',in:[I('Q','Flow rate','L/min','Q',100),I('D','Inner diameter','mm','L',40),I('L','Pipe length','m','Lm',20),I('r','Density ρ','kg/m³','rho',998),I('u','Viscosity μ','mPa·s','n',1),I('e','Roughness ε','mm','L',.045)],
+run:v=>{const D=v.D/1e3,V=v.Q/6e4/(PI*D*D/4),Re=v.r*V*D/(v.u/1e3),f=Re<2300?64/Re:.25/Math.log10(v.e/1e3/(3.7*D)+5.74/Re**.9)**2;return[O('Velocity','m/s','v',V),O('Reynolds number','','n',Re),O('Friction factor f','','n',f),O('Pressure drop','kPa','Sp',f*v.L/D*v.r*V*V/2/1000)]}},
+{id:'cond',c:'Thermal',n:'Conduction through a wall',d:'Steady 1-D heat flow Q = kAΔT/t.',in:[I('k','Conductivity k','W/m·K','kc',50),I('A','Area','m²','Am',1),I('t','Thickness','mm','L',20),I('a','Hot side','°C','C',200),I('b','Cold side','°C','C',40)],
+run:v=>{const Q=v.k*v.A*(v.a-v.b)/(v.t/1000);return[O('Heat flow Q','W','Pw',Q),O('Thermal resistance','K/W','n',v.t/1000/(v.k*v.A))]}},
+{id:'exp',c:'Thermal',n:'Thermal expansion & stress',d:'Free expansion and stress if fully constrained.',in:[I('a','Coefficient α','µm/m·K','alpha',11.7),I('L','Length L','mm','L',1000),I('dT','Temperature change','K','n',50),I('E','Modulus E','GPa','E',205)],
+run:v=>[O('Expansion ΔL','mm','L',v.a*1e-6*v.L*v.dT),O('Constrained stress EαΔT','MPa','S',v.E*1000*v.a*1e-6*v.dT)]}];
+const R=[{id:'mat',c:'Reference',n:'Material properties',d:'Typical room-temperature values. Click any value to pin it to the chain bin.',
+h:['Material','E (GPa)','Sy (MPa)','Su (MPa)','ρ (kg/m³)','α (µm/m·K)'],k:[0,'E','S','S','rho','alpha'],
+r:[['AISI 1018 CD steel',205,370,440,7870,11.7],['AISI 1045 HR steel',205,310,565,7850,11.5],['AISI 4140 Q&T steel',205,655,1020,7850,12.3],['Stainless 304',193,215,505,8000,17.3],['Aluminium 6061-T6',68.9,276,310,2700,23.6],['Aluminium 7075-T6',71.7,503,572,2810,23.6],['Titanium Ti-6Al-4V',114,880,950,4430,8.6],['Gray cast iron ASTM 40',110,null,293,7200,10.5],['Copper C11000 (annealed)',117,69,220,8940,17]]},
+{id:'thr',c:'Reference',n:'Metric coarse threads',d:'ISO coarse series. Click a value to pin it.',h:['Size','Major d (mm)','Pitch (mm)','Tensile area At (mm²)'],k:[0,'L','L','A'],
+r:[['M3',3,.5,5.03],['M4',4,.7,8.78],['M5',5,.8,14.2],['M6',6,1,20.1],['M8',8,1.25,36.6],['M10',10,1.5,58],['M12',12,1.75,84.3],['M14',14,2,115],['M16',16,2,157],['M20',20,2.5,245],['M24',24,3,353]]}];
+const ALL=[...T,...R];let S={},bin=[],cur,nid=0;
+const $=s=>document.querySelector(s),f=x=>!isFinite(x)?'—':(Math.abs(x)>=1e7||(x!==0&&Math.abs(x)<1e-3))?x.toExponential(3):(+x.toPrecision(6)).toLocaleString('en-US',{maximumFractionDigits:8});
+function say(m){const e=$('#st');e.textContent=m;e.classList.add('on');clearTimeout(say.t);say.t=setTimeout(()=>e.classList.remove('on'),2200)}
+function nav(q=''){let h='',c='';ALL.filter(t=>(t.n+t.c).toLowerCase().includes(q.toLowerCase())).forEach(t=>{if(t.c!=c){c=t.c;h+=`<h3>${c}</h3>`}h+=`<a href="#${t.id}" ${cur&&cur.id==t.id?'aria-current="page"':''}>${t.n}</a>`});$('#nav').innerHTML=h||'<p class="p">No match.</p>'}
+const ok=(i,k)=>i.kind&&k&&(i.kind==k||i.kind=='any'||k=='any');
+function show(id){cur=ALL.find(t=>t.id==id)||T[0];nav($('#q').value);const m=$('#main');let h=`<h2>${cur.n}</h2><p class="p">${cur.d}</p>`;
+if(cur.h){h+=`<div class="tw"><table><thead><tr>${cur.h.map(x=>`<th scope="col">${x}</th>`).join('')}</tr></thead><tbody>${cur.r.map((r,ri)=>`<tr>${r.map((c,i)=>i==0?`<th scope="row">${c}</th>`:c==null?'<td>—</td>':`<td><button data-cell="${ri},${i}" title="Pin to bin">${c}</button></td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
+else{h+='<div class="grid">'+cur.in.map(i=>{const v=(S[cur.id]||{})[i.k]??i.v;return`<div class="f"><label for="i_${i.k}">${i.l} ${i.u?`<small>(${i.u})</small>`:''}</label>`+(i.o?`<select id="i_${i.k}" data-k="${i.k}">${i.o.map(o=>`<option value="${o[0]}" ${o[0]==v?'selected':''}>${o[1]}</option>`).join('')}</select>`:`<div class="row"><input id="i_${i.k}" data-k="${i.k}" type="number" step="any" inputmode="decimal" value="${v}"><select data-pick="${i.k}" aria-label="Insert ${i.l} from bin"></select></div>`)+'</div>'}).join('')+'</div><div class="res" id="out" aria-live="polite"></div>'}
+m.innerHTML=h;pickers();calc();document.title=cur.n+' – MechKit'}
+function vals(){const v={};for(const i of cur.in){const e=$('#i_'+i.k);v[i.k]=i.o?e.value:e.value===''?NaN:+e.value}return v}
+let outs=[];function calc(){const v=vals();S[cur.id]=Object.assign(S[cur.id]||{},Object.fromEntries(Object.entries(v).filter(([k,x])=>!(x!==x))));const el=$('#out');
+if(Object.values(v).some(x=>x!==x)){el.innerHTML='<p class="p">Enter every input to see results.</p>';outs=[];return}
+outs=cur.run(v);el.innerHTML='<h3>Results</h3>'+outs.map((o,n)=>{if(o.msg)return`<p>${o.msg}</p>`;const tg=T.filter(t=>t.id!=cur.id).map(t=>({t,l:t.in.filter(i=>ok(i,o.kind))})).filter(x=>x.l.length);
+return`<div class="o"><span>${o.l}</span><b>${f(o.val)} <small>${o.u||''}</small></b><div class="a"><button data-pin="${n}">＋ Pin to bin</button><select data-send="${n}" aria-label="Send ${o.l} to another tool"><option value="">→ Send to tool…</option>${tg.map(x=>`<optgroup label="${x.t.n}">${x.l.map(i=>`<option value="${x.t.id}|${i.k}">${i.l}</option>`).join('')}</optgroup>`).join('')}</select></div></div>`}).join('')+'<p class="note">Check units: lengths mm, forces N, stresses MPa unless noted. Results are for learning and quick estimates – verify against codes and standards.</p>'}
+function pickers(){document.querySelectorAll('[data-pick]').forEach(s=>{const i=cur.in.find(x=>x.k==s.dataset.pick),c=bin.filter(b=>ok(i,b.kind));s.innerHTML='<option value="">↤</option>'+c.map(b=>`<option value="${b.id}">${b.l}: ${f(b.val)} ${b.u||''}</option>`).join('');s.disabled=!c.length;s.title=c.length?'Insert value from bin':'No compatible values in bin'})}
+function binui(){$('#bin').innerHTML=`<h2 style="font-size:1.05rem">Chain bin</h2><p class="p" style="margin:0"><small>Pin results here, then insert them into any compatible input with the ↤ menu.</small></p><ul>${bin.map(b=>`<li><span><b>${f(b.val)}</b> ${b.u||''}<small>${b.l}</small></span><button data-del="${b.id}" aria-label="Remove ${b.l}">✕</button></li>`).join('')||'<li><small>Empty</small></li>'}</ul>${bin.length?'<button data-clr>Clear all</button>':''}`;if(cur&&cur.in)pickers()}
+function pin(l,val,kind,u){bin.unshift({id:++nid,l,val,kind,u});binui();say('Pinned: '+l)}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+if(d.pin!==undefined){const o=outs[d.pin];pin(cur.n+' – '+o.l,o.val,o.kind,o.u)}
+else if(d.cell){const[r,c]=d.cell.split(',').map(Number),row=cur.r[r];pin(row[0]+' '+cur.h[c].replace(/ \(.*/,''),row[c],cur.k[c],(cur.h[c].match(/\((.*)\)/)||[])[1])}
+else if(d.del){bin=bin.filter(x=>x.id!=d.del);binui()}else if(d.clr!==undefined){bin=[];binui()}
+else if(b.id=='menu'){const n=$('#nav').classList.toggle('open');b.setAttribute('aria-expanded',n)}});
+document.addEventListener('input',e=>{if(e.target.dataset.k)calc();if(e.target.id=='q')nav(e.target.value)});
+document.addEventListener('change',e=>{const t=e.target,d=t.dataset;
+if(d.k)calc();
+if(d.pick&&t.value){const b=bin.find(x=>x.id==t.value);$('#i_'+d.pick).value=+b.val.toPrecision(8);t.selectedIndex=0;calc();say('Inserted '+f(b.val))}
+if(d.send&&t.value){const o=outs[d.send],[id,k]=t.value.split('|');(S[id]=S[id]||{})[k]=+o.val.toPrecision(8);location.hash=id;say('Sent '+f(o.val)+' to '+T.find(x=>x.id==id).n)}});
+addEventListener('hashchange',()=>{show(location.hash.slice(1));$('#nav').classList.remove('open')});
+binui();show(location.hash.slice(1)||'conv');
+</script></body></html>
