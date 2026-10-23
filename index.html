@@ -1,207 +1,466 @@
 <!DOCTYPE html>
-<html lang="en"><head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6379555741311327"
-     crossorigin="anonymous"></script><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MechKit – Mechanical Engineering Toolkit</title>
-<style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f6f7f9;--sf:#fff;--tx:#1a1f2b;--mu:#5b6475;--ac:#0b5fd1;--ac2:#e4eeff;--bd:#d5dae3;--ok:#0a7a45}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#12151c;--sf:#1b1f29;--tx:#e8ebf2;--mu:#9aa3b5;--ac:#6aa8ff;--ac2:#1f3354;--bd:#343b4b;--ok:#4cd08a}}
-:root[data-theme=dark]{color-scheme:dark;--bg:#12151c;--sf:#1b1f29;--tx:#e8ebf2;--mu:#9aa3b5;--ac:#6aa8ff;--ac2:#1f3354;--bd:#343b4b;--ok:#4cd08a}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
-.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--sf);padding:8px;z-index:9}
-header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 16px;background:var(--sf);border-bottom:1px solid var(--bd)}
-h1{font-size:1.2rem;margin:0}h2{margin:0 0 4px}
-input,select,button{font:inherit;color:var(--tx);background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;min-height:40px}
-input[type=search]{flex:1;min-width:160px;max-width:360px}
-button{cursor:pointer}button:hover{background:var(--ac2)}
-.wrap{display:grid;grid-template-columns:230px minmax(0,1fr) 260px;gap:16px;padding:16px;max-width:1300px;margin:auto}
-nav,aside,main{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px;align-self:start}
-nav h3{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin:12px 0 4px}nav h3:first-child{margin-top:0}
-nav a{display:block;padding:6px 10px;border-radius:6px;color:var(--tx);text-decoration:none}
-nav a:hover{background:var(--ac2)}nav a[aria-current]{background:var(--ac);color:var(--bg);font-weight:600}
-.p{color:var(--mu);margin:0 0 14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.f label{display:block;font-weight:600;font-size:.9rem;margin-bottom:2px}.f small{color:var(--mu);font-weight:400}
-.row{display:flex;gap:6px}.row input,.row select:first-child{flex:1;min-width:0}.row select[data-pick]{width:52px;padding:0 4px}
-.f>select,.f>input{width:100%}
-.res{margin-top:18px;border-top:1px solid var(--bd);padding-top:12px}
-.o{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--bd)}
-.o b{font-size:1.15rem;color:var(--ok)}.o .a{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
-.o .a select{max-width:100%;min-height:34px;padding:4px 8px}.o .a button{min-height:34px;padding:4px 10px}
-.tw{overflow-x:auto}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left;white-space:nowrap}
-td button{min-height:28px;padding:2px 8px;border-style:dashed}
-.bin li{display:flex;justify-content:space-between;gap:6px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:.9rem;list-style:none}
-.bin ul{padding:0;margin:8px 0}.bin small{color:var(--mu);display:block}
-.note{color:var(--mu);font-size:.85rem;margin-top:12px}
-#add{margin-top:14px;border-top:1px solid var(--bd);padding-top:10px}#add h3{margin:0 0 4px;font-size:1rem}#add .f{margin-top:8px}#add button{margin-top:10px;width:100%}[hidden]{display:none!important}
-.sl{padding:0;list-style:none}.sl li{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--bd)}.err{color:#e5484d}textarea{font:13px/1.4 ui-monospace,monospace;color:var(--tx);background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:8px;width:100%}pre{overflow:auto;background:var(--bg);padding:10px;border-radius:8px;font-size:.8rem}
-#st{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:8px 14px;border-radius:20px;opacity:0;transition:opacity .2s;pointer-events:none}#st.on{opacity:1}
-@media(max-width:960px){.wrap{grid-template-columns:1fr}nav{display:none}nav.open{display:block}#menu{display:inline-block}}
-@media(min-width:961px){#menu{display:none}}
-</style></head><body>
-<a class="skip" href="#main">Skip to tool</a>
-<header><button id="menu" aria-expanded="false" aria-controls="nav">☰ Tools</button><h1>MechKit</h1>
-<input type="search" id="q" placeholder="Search tools…" aria-label="Search tools"></header>
-<div class="wrap"><nav id="nav" aria-label="Tools"></nav><main id="main" tabindex="-1"></main>
-<aside id="bin" class="bin" aria-label="Chain bin"><div id="binl"></div>
-<form id="add" aria-labelledby="addh"><h3 id="addh">Add your own value</h3>
-<div class="f"><label for="ad">Description</label><input id="ad" required maxlength="60" placeholder="e.g. Shaft diameter"></div>
-<div class="f"><label for="av">Value</label><input id="av" type="number" step="any" inputmode="decimal" required></div>
-<div class="f"><label for="au">Unit</label><select id="au"></select></div>
-<div class="f" id="acw" hidden><label for="ac">Custom unit</label><input id="ac" maxlength="20" placeholder="e.g. W/m·K"></div>
-<button type="submit">＋ Add to bin</button>
-<p class="note">Standard units match the tool inputs, so the value is offered wherever it fits. Custom units can be inserted into any input.</p></form></aside></div>
-<div id="st" role="status" aria-live="polite"></div>
-<script>
-const PI=Math.PI,DG=PI/180,I=(k,l,u,kind,v)=>({k,l,u,kind,v}),O=(l,u,kind,val)=>({l,u,kind,val}),Sel=(k,l,o,v)=>({k,l,o,v});
-const U={Length:{mm:1,m:1000,cm:10,in:25.4,ft:304.8},Force:{N:1,kN:1000,lbf:4.44822,kgf:9.80665},Stress:{MPa:1,kPa:.001,Pa:1e-6,bar:.1,psi:.00689476,ksi:6.89476},Energy:{J:1,kJ:1000,Wh:3600,BTU:1055.06,'ft·lbf':1.35582},Power:{W:1,kW:1000,hp:745.7,'BTU/h':.29307},Mass:{kg:1,g:.001,lb:.453592},Torque:{'N·m':1,'lbf·ft':1.35582,'lbf·in':.112985}};
-const UO=Object.entries(U).flatMap(([c,m])=>Object.keys(m).map(u=>[c+'|'+u,u+' ('+c+')']));
-const T=[
-{id:'conv',c:'Basics',n:'Unit converter',d:'Convert between common engineering units.',in:[I('v','Value','','any',1),Sel('a','From',UO,'Length|in'),Sel('b','To',UO,'Length|mm')],
-run:v=>{const[ca,ua]=v.a.split('|'),[cb,ub]=v.b.split('|');return ca!=cb?[{msg:'Pick units from the same category.'}]:[O('Result',ub,'any',v.v*U[ca][ua]/U[cb][ub])]}},
-{id:'sec',c:'Mechanics',n:'Section properties',d:'Area, second moment, section modulus for common cross-sections.',in:[Sel('s','Shape',[['r','Rectangle'],['c','Solid circle'],['h','Hollow circle']],'r'),I('b','Width b / outer dia D','mm','L',40),I('h','Height h (rectangle)','mm','L',60),I('d','Inner dia d (hollow)','mm','L',30)],
-run:v=>{const{s,b,h,d}=v;let A,Ix,c,J;if(s=='r'){A=b*h;Ix=b*h**3/12;c=h/2}else{const di=s=='h'?d:0;A=PI*(b*b-di*di)/4;Ix=PI*(b**4-di**4)/64;c=b/2;J=2*Ix}
-return[O('Area A','mm²','A',A),O('Second moment I','mm⁴','I',Ix),O('Extreme fibre c','mm','L',c),O('Section modulus Z = I/c','mm³','Z',Ix/c),...(J?[O('Polar moment J','mm⁴','I',J)]:[])]}},
-{id:'ax',c:'Mechanics',n:'Axial stress & elongation',d:'Direct stress, strain and elongation of a bar under axial load.',in:[I('F','Axial force F','N','F',10000),I('A','Area A','mm²','A',200),I('L','Length L','mm','L',500),I('E','Young’s modulus E','GPa','E',205)],
-run:v=>{const s=v.F/v.A,e=s/(v.E*1000);return[O('Stress σ = F/A','MPa','S',s),O('Strain ε','','n',e),O('Elongation δ = FL/AE','mm','L',e*v.L)]}},
-{id:'beam',c:'Mechanics',n:'Beam bending',d:'Maximum moment, bending stress and deflection for standard cases.',in:[Sel('t','Case',[['ssc','Simply supported, centre point load'],['ssu','Simply supported, uniform load'],['cp','Cantilever, end point load'],['cu','Cantilever, uniform load']],'ssc'),I('L','Span L','mm','L',1000),I('P','Load: P (N) or w (N/mm)','','F',2000),I('E','Modulus E','GPa','E',205),I('I','Second moment I','mm⁴','I',200000),I('c','Extreme fibre c','mm','L',15)],
-run:v=>{const{L,P,I:i,c}=v,e=v.E*1000,m={ssc:[P*L/4,P*L**3/(48*e*i)],ssu:[P*L*L/8,5*P*L**4/(384*e*i)],cp:[P*L,P*L**3/(3*e*i)],cu:[P*L*L/2,P*L**4/(8*e*i)]}[v.t];
-return[O('Max moment','N·m','T',m[0]/1000),O('Max bending stress σ = Mc/I','MPa','S',m[0]*c/i),O('Max deflection','mm','L',m[1])]}},
-{id:'tor',c:'Mechanics',n:'Torsion of solid shaft',d:'Shear stress and angle of twist.',in:[I('T','Torque T','N·m','T',200),I('d','Diameter d','mm','L',30),I('L','Length L','mm','L',600),I('G','Shear modulus G','GPa','E',79)],
-run:v=>{const J=PI*v.d**4/32;return[O('Shear stress τ','MPa','S',16*v.T*1000/(PI*v.d**3)),O('Angle of twist','deg','deg',v.T*1000*v.L/(J*v.G*1000)*180/PI),O('Polar moment J','mm⁴','I',J)]}},
-{id:'buck',c:'Mechanics',n:'Euler column buckling',d:'Critical buckling load of a slender column.',in:[I('E','Modulus E','GPa','E',205),I('I','Second moment I','mm⁴','I',50000),I('L','Length L','mm','L',800),Sel('K','End condition (K)',[[1,'Pinned–pinned (1.0)'],[.5,'Fixed–fixed (0.5)'],[.7,'Fixed–pinned (0.7)'],[2,'Fixed–free (2.0)']],1)],
-run:v=>[O('Critical load Pcr','N','F',PI**2*v.E*1000*v.I/(v.K*v.L)**2)]},
-{id:'mohr',c:'Stress',n:'Principal & von Mises stress',d:'Plane stress state with factor of safety against yield.',in:[I('x','σx','MPa','S',100),I('y','σy','MPa','S',-20),I('t','τxy','MPa','S',40),I('Sy','Yield strength Sy','MPa','S',350)],
-run:v=>{const a=(v.x+v.y)/2,r=Math.hypot((v.x-v.y)/2,v.t),s1=a+r,s2=a-r,vm=Math.sqrt(s1*s1-s1*s2+s2*s2);return[O('Principal σ1','MPa','S',s1),O('Principal σ2','MPa','S',s2),O('Max shear τmax','MPa','S',r),O('Von Mises σ′','MPa','S',vm),O('Factor of safety Sy/σ′','','n',v.Sy/vm)]}},
-{id:'pv',c:'Stress',n:'Thin-wall pressure vessel',d:'Valid when d/t > 10.',in:[I('p','Internal pressure p','MPa','S',2),I('d','Inner diameter d','mm','L',300),I('t','Wall thickness t','mm','L',5)],
-run:v=>[O('Hoop stress pd/2t','MPa','S',v.p*v.d/(2*v.t)),O('Longitudinal / sphere pd/4t','MPa','S',v.p*v.d/(4*v.t))]},
-{id:'bolt',c:'Machine elements',n:'Bolt preload & torque',d:'Tensile stress area, stress and tightening torque (T = K·d·F).',in:[I('d','Nominal diameter d','mm','L',10),I('p','Thread pitch','mm','L',1.5),I('F','Preload F','N','F',20000),I('K','Torque coefficient K','','n',.2)],
-run:v=>{const At=PI/4*(v.d-.9382*v.p)**2;return[O('Tensile stress area At','mm²','A',At),O('Bolt stress F/At','MPa','S',v.F/At),O('Tightening torque','N·m','T',v.K*v.d*v.F/1000)]}},
-{id:'spr',c:'Machine elements',n:'Compression spring',d:'Spring rate k = Gd⁴/8D³N and force at deflection.',in:[I('d','Wire dia d','mm','L',2),I('D','Mean coil dia D','mm','L',16),I('N','Active coils','','n',8),I('G','Shear modulus G','GPa','E',79),I('x','Deflection x','mm','L',10)],
-run:v=>{const k=v.G*1000*v.d**4/(8*v.D**3*v.N);return[O('Spring rate k','N/mm','ks',k),O('Force F = kx','N','F',k*v.x)]}},
-{id:'gear',c:'Machine elements',n:'Spur gear pair',d:'Ratio, pitch diameters, centre distance, output speed and torque (ideal).',in:[I('z1','Pinion teeth','','n',20),I('z2','Gear teeth','','n',60),I('m','Module m','mm','L',2),I('n1','Input speed','rpm','N',1500),I('t1','Input torque','N·m','T',50)],
-run:v=>{const r=v.z2/v.z1;return[O('Ratio','','n',r),O('Pinion pitch dia','mm','L',v.m*v.z1),O('Gear pitch dia','mm','L',v.m*v.z2),O('Centre distance','mm','L',v.m*(v.z1+v.z2)/2),O('Output speed','rpm','N',v.n1/r),O('Output torque','N·m','T',v.t1*r)]}},
-{id:'pwr',c:'Machine elements',n:'Power, torque & speed',d:'P = T·ω. Choose which to solve for.',in:[Sel('m','Solve for',[['p','Power'],['t','Torque']],'p'),I('T','Torque (used for power)','N·m','T',100),I('P','Power (used for torque)','kW','Pk',15),I('N','Speed N','rpm','N',1500)],
-run:v=>{const w=v.N*2*PI/60,P=v.m=='p'?v.T*w/1000:v.P,Tq=v.m=='p'?v.T:v.P*1000/w;return[O('Power','kW','Pk',P),O('Torque','N·m','T',Tq),O('Angular speed ω','rad/s','n',w)]}},
-{id:'pipe',c:'Fluids',n:'Pipe flow & pressure drop',d:'Velocity, Reynolds number and Darcy–Weisbach loss (Swamee–Jain). Defaults: water.',in:[I('Q','Flow rate','L/min','Q',100),I('D','Inner diameter','mm','L',40),I('L','Pipe length','m','Lm',20),I('r','Density ρ','kg/m³','rho',998),I('u','Viscosity μ','mPa·s','n',1),I('e','Roughness ε','mm','L',.045)],
-run:v=>{const D=v.D/1e3,V=v.Q/6e4/(PI*D*D/4),Re=v.r*V*D/(v.u/1e3),f=Re<2300?64/Re:.25/Math.log10(v.e/1e3/(3.7*D)+5.74/Re**.9)**2;return[O('Velocity','m/s','v',V),O('Reynolds number','','n',Re),O('Friction factor f','','n',f),O('Pressure drop','kPa','Pkpa',f*v.L/D*v.r*V*V/2/1000)]}},
-{id:'cond',c:'Thermal',n:'Conduction through a wall',d:'Steady 1-D heat flow Q = kAΔT/t.',in:[I('k','Conductivity k','W/m·K','kc',50),I('A','Area','m²','Am',1),I('t','Thickness','mm','L',20),I('a','Hot side','°C','C',200),I('b','Cold side','°C','C',40)],
-run:v=>{const Q=v.k*v.A*(v.a-v.b)/(v.t/1000);return[O('Heat flow Q','W','Pw',Q),O('Thermal resistance','K/W','n',v.t/1000/(v.k*v.A))]}},
-{id:'exp',c:'Thermal',n:'Thermal expansion & stress',d:'Free expansion and stress if fully constrained.',in:[I('a','Coefficient α','µm/m·K','alpha',11.7),I('L','Length L','mm','L',1000),I('dT','Temperature change','K','n',50),I('E','Modulus E','GPa','E',205)],
-run:v=>[O('Expansion ΔL','mm','L',v.a*1e-6*v.L*v.dT),O('Constrained stress EαΔT','MPa','S',v.E*1000*v.a*1e-6*v.dT)]},
-{id:'gas',c:'Thermal',n:'Ideal gas law',d:'P = mRT/V for common gases.',in:[Sel('g','Gas',[[287,'Air'],[296.8,'Nitrogen'],[259.8,'Oxygen'],[188.9,'Carbon dioxide'],[2077,'Helium'],[4124,'Hydrogen']],287),I('m','Mass','kg','M',1),I('T','Temperature','°C','C',25),I('V','Volume','m³','Vm',.85)],
-run:v=>[O('Pressure','kPa','Pkpa',v.m*v.g*(v.T+273.15)/v.V/1000),O('Density','kg/m³','rho',v.m/v.V)]},
-{id:'proc',c:'Thermal',n:'Ideal gas processes',d:'Isothermal, isobaric or reversible adiabatic change of a closed gas system.',in:[Sel('p','Process',[['t','Isothermal'],['b','Isobaric'],['a','Adiabatic (reversible)']],'t'),I('P1','Initial pressure','kPa','Pkpa',100),I('V1','Initial volume','m³','Vm',1),I('T1','Initial temperature','°C','C',27),I('V2','Final volume','m³','Vm',.5),I('g','γ = cp/cv','','n',1.4)],
-run:v=>{const{P1,V1,V2,g:y}=v,K=v.T1+273.15;let P2,K2,W;if(v.p=='t'){P2=P1*V1/V2;K2=K;W=P1*V1*Math.log(V2/V1)}else if(v.p=='b'){P2=P1;K2=K*V2/V1;W=P1*(V2-V1)}else{P2=P1*(V1/V2)**y;K2=K*(V1/V2)**(y-1);W=(P1*V1-P2*V2)/(y-1)}
-return[O('Final pressure','kPa','Pkpa',P2),O('Final temperature','°C','C',K2-273.15),O('Work done by gas','kJ','Qk',W)]}},
-{id:'mix',c:'Thermal',n:'Sensible heat & mixing',d:'Q = mcΔT and equilibrium temperature when two bodies are mixed.',in:[I('m1','Mass 1','kg','M',2),I('c1','Specific heat c1','kJ/kg·K','cp',.49),I('T1','Temperature 1','°C','C',200),I('m2','Mass 2','kg','M',5),I('c2','Specific heat c2','kJ/kg·K','cp',4.18),I('T2','Temperature 2','°C','C',20)],
-run:v=>{const a=v.m1*v.c1,b=v.m2*v.c2,Tf=(a*v.T1+b*v.T2)/(a+b);return[O('Final temperature','°C','C',Tf),O('Heat transferred','kJ','Qk',a*Math.abs(Tf-v.T1))]}},
-{id:'cvr',c:'Thermal',n:'Convection & radiation',d:'Surface heat loss: Q = hAΔT and Q = εσA(Ts⁴ − Tsurr⁴), with surroundings at ambient.',in:[I('h','Convection coeff. h','W/m²·K','h',25),I('A','Area','m²','Am',1),I('Ts','Surface temp','°C','C',80),I('Ta','Ambient temp','°C','C',20),I('e','Emissivity ε','','n',.9)],
-run:v=>{const q=v.h*v.A*(v.Ts-v.Ta),r=v.e*5.670374e-8*v.A*((v.Ts+273.15)**4-(v.Ta+273.15)**4);return[O('Convection','W','Pw',q),O('Radiation','W','Pw',r),O('Total loss','W','Pw',q+r),O('Radiation coeff. hr','W/m²·K','h',r/(v.A*(v.Ts-v.Ta)))]}},
-{id:'eng',c:'Heat engines & refrigerators',n:'Heat engine',d:'Thermal efficiency against the Carnot limit.',in:[I('Th','Hot reservoir','°C','C',500),I('Tc','Cold reservoir','°C','C',30),I('Qh','Heat input rate','kW','Pk',100),I('W','Work output','kW','Pk',30)],
-run:v=>{const c=1-(v.Tc+273.15)/(v.Th+273.15),e=v.W/v.Qh;return[O('Carnot efficiency','','n',c),O('Actual efficiency','','n',e),O('Second-law efficiency','','n',e/c),O('Heat rejected','kW','Pk',v.Qh-v.W),O('Max work (Carnot)','kW','Pk',c*v.Qh)]}},
-{id:'fri',c:'Heat engines & refrigerators',n:'Refrigerator / heat pump',d:'COP against the Carnot limit.',in:[I('Tc','Cold space','°C','C',-10),I('Th','Hot space','°C','C',35),I('Qc','Cooling load','kW','Pk',5),I('W','Compressor power','kW','Pk',1.5)],
-run:v=>{const a=v.Tc+273.15,b=v.Th+273.15,Qh=v.Qc+v.W;return[O('COP refrigerator','','n',v.Qc/v.W),O('Carnot COP refrigerator','','n',a/(b-a)),O('Second-law efficiency','','n',v.Qc/v.W/(a/(b-a))),O('Heat rejected Qh','kW','Pk',Qh),O('COP heat pump','','n',Qh/v.W),O('Carnot COP heat pump','','n',b/(b-a))]}},
-{id:'cyc',c:'Heat engines & refrigerators',n:'Air-standard cycles',d:'Ideal efficiency of Otto, Diesel and Brayton cycles.',in:[Sel('c','Cycle',[['o','Otto'],['d','Diesel'],['b','Brayton (gas turbine)']],'o'),I('r','Compression ratio (Otto, Diesel) or pressure ratio (Brayton)','','n',9),I('rc','Cutoff ratio (Diesel)','','n',2),I('g','γ','','n',1.4)],
-run:v=>{const{r,rc,g}=v;return[O('Thermal efficiency','','n',v.c=='o'?1-1/r**(g-1):v.c=='d'?1-(rc**g-1)/(r**(g-1)*g*(rc-1)):1-1/r**((g-1)/g))]}},
-{id:'worm',c:'Gears',n:'Worm gear',d:'Ratio, lead angle, efficiency, self-locking and output torque. Pressure angle is treated as the normal angle.',in:[I('z1','Worm starts','','n',2),I('z2','Wheel teeth','','n',40),I('m','Axial module','mm','L',4),I('dw','Worm pitch dia','mm','L',40),I('n1','Worm speed','rpm','N',1450),I('t1','Worm torque','N·m','T',10),I('mu','Friction coeff. μ','','n',.05),I('pa','Pressure angle','deg','deg',20)],
-run:v=>{const r=v.z2/v.z1,l=Math.atan(v.z1*v.m/v.dw),c=Math.cos(v.pa*DG),e=(c-v.mu*Math.tan(l))/(c+v.mu/Math.tan(l));return[O('Ratio','','n',r),O('Lead angle','deg','deg',l/DG),O('Efficiency','','n',e),O('Self-locking? (1 = yes)','','n',+(Math.tan(l)<=v.mu/c)),O('Wheel pitch dia','mm','L',v.m*v.z2),O('Centre distance','mm','L',(v.dw+v.m*v.z2)/2),O('Output speed','rpm','N',v.n1/r),O('Output torque','N·m','T',v.t1*r*e)]}},
-{id:'bevel',c:'Gears',n:'Bevel gear pair',d:'Pitch cone angles, pitch diameters and cone distance (module at large end).',in:[I('z1','Pinion teeth','','n',18),I('z2','Gear teeth','','n',36),I('m','Module (large end)','mm','L',3),I('s','Shaft angle Σ','deg','deg',90),I('n1','Input speed','rpm','N',1200),I('t1','Input torque','N·m','T',30),I('e','Efficiency','','n',.98)],
-run:v=>{const r=v.z2/v.z1,S=v.s*DG,d1=Math.atan2(Math.sin(S),r+Math.cos(S));return[O('Ratio','','n',r),O('Pinion cone angle δ1','deg','deg',d1/DG),O('Gear cone angle δ2','deg','deg',(S-d1)/DG),O('Pinion pitch dia','mm','L',v.m*v.z1),O('Gear pitch dia','mm','L',v.m*v.z2),O('Cone distance','mm','L',v.m*v.z1/(2*Math.sin(d1))),O('Output speed','rpm','N',v.n1/r),O('Output torque','N·m','T',v.t1*r*v.e)]}},
-{id:'epi',c:'Gears',n:'Planetary gearset',d:'Simple planetary: ratio, output speed and torque for each fixed/input/output arrangement.',in:[Sel('m','Arrangement',[['a','Ring fixed · Sun in · Carrier out (reduction)'],['b','Sun fixed · Ring in · Carrier out'],['c','Carrier fixed · Sun in · Ring out (reverse)'],['d','Ring fixed · Carrier in · Sun out (overdrive)']],'a'),I('zs','Sun teeth','','n',20),I('zr','Ring teeth','','n',60),I('np','Number of planets','','n',3),I('n1','Input speed','rpm','N',1500),I('t1','Input torque','N·m','T',20),I('e','Efficiency','','n',.97)],
-run:v=>{const q=v.zr/v.zs,r={a:1+q,b:1+1/q,c:-q,d:1/(1+q)}[v.m];return[O('Speed ratio (in/out)','','n',r),O('Planet teeth','','n',(v.zr-v.zs)/2),O('Equal spacing OK? (1 = yes)','','n',+(((v.zs+v.zr)/v.np)%1==0)),O('Output speed','rpm','N',v.n1/r),O('Output torque','N·m','T',v.t1*Math.abs(r)*v.e)]}},
-{id:'belt',c:'Belts & chains',n:'Belt drive (open)',d:'Geometry, belt speed, wrap angle and tensions with friction (no centrifugal term). D1 is the driver.',in:[I('D1','Driver pulley dia','mm','L',100),I('D2','Driven pulley dia','mm','L',250),I('C','Centre distance','mm','L',500),I('n1','Driver speed','rpm','N',1450),I('P','Power','kW','Pk',3),I('mu','Friction coeff. μ','','n',.3)],
-run:v=>{const{D1,D2,C}=v,th=PI-2*Math.asin(Math.abs(D2-D1)/(2*C)),b=PI*D1*v.n1/6e4,Fe=v.P*1000/b,x=Math.exp(v.mu*th),F1=Fe*x/(x-1);return[O('Speed ratio','','n',D2/D1),O('Driven speed','rpm','N',v.n1*D1/D2),O('Belt speed','m/s','v',b),O('Wrap on small pulley','deg','deg',th/DG),O('Belt length','mm','L',2*C+PI*(D1+D2)/2+(D2-D1)**2/(4*C)),O('Effective tension','N','F',Fe),O('Tight side F1','N','F',F1),O('Slack side F2','N','F',F1-Fe),O('Driven torque','N·m','T',Fe*D2/2000)]}},
-{id:'chain',c:'Belts & chains',n:'Roller chain drive',d:'Sprocket sizes, chain speed, tension and number of links.',in:[Sel('p','Chain (pitch)',[[9.525,'ANSI 35 – 9.525 mm'],[12.7,'ANSI 40 – 12.7 mm'],[15.875,'ANSI 50 – 15.875 mm'],[19.05,'ANSI 60 – 19.05 mm'],[25.4,'ANSI 80 – 25.4 mm']],12.7),I('z1','Driver sprocket teeth','','n',17),I('z2','Driven sprocket teeth','','n',45),I('C','Centre distance','mm','L',500),I('n1','Driver speed','rpm','N',600),I('P','Power','kW','Pk',3)],
-run:v=>{const p=+v.p,{z1,z2,C}=v,s=p*z1*v.n1/6e4,Lp=2*C/p+(z1+z2)/2+((z2-z1)/(2*PI))**2*p/C;return[O('Speed ratio','','n',z2/z1),O('Driven speed','rpm','N',v.n1*z1/z2),O('Driver pitch dia','mm','L',p/Math.sin(PI/z1)),O('Driven pitch dia','mm','L',p/Math.sin(PI/z2)),O('Chain speed','m/s','v',s),O('Chain tension','N','F',v.P*1000/s),O('Links (rounded up to even)','','n',2*Math.ceil(Lp/2))]}},
-{id:'mot',c:'Power',n:'Three-phase motor',d:'Electrical input, shaft power and shaft torque.',in:[I('V','Line voltage','V','V',400),I('A','Line current','A','Amp',20),I('pf','Power factor','','n',.85),I('e','Motor efficiency','','n',.92),I('N','Shaft speed','rpm','N',1450)],
-run:v=>{const pi=Math.sqrt(3)*v.V*v.A*v.pf/1000,ps=pi*v.e;return[O('Electrical input','kW','Pk',pi),O('Shaft power','kW','Pk',ps),O('Shaft power','hp','n',ps*1000/745.7),O('Shaft torque','N·m','T',ps*1000/(v.N*2*PI/60)),O('Losses','kW','Pk',pi-ps)]}},
-{id:'pump',c:'Power',n:'Pump / hydraulic power',d:'Hydraulic and shaft power from flow and pressure rise.',in:[I('Q','Flow rate','L/min','Q',100),I('dp','Pressure rise','kPa','Pkpa',500),I('e','Pump efficiency','','n',.7),I('r','Density ρ','kg/m³','rho',998)],
-run:v=>{const h=v.Q/6e4*v.dp;return[O('Hydraulic power','kW','Pk',h),O('Shaft power','kW','Pk',h/v.e),O('Head','m','Lm',v.dp*1000/(v.r*9.81))]}},
-{id:'drv',c:'Power',n:'Drivetrain efficiency',d:'Multiply stage efficiencies (use 1 for unused stages) to track power losses.',in:[I('P','Input power','kW','Pk',10),I('a','Stage 1 efficiency','','n',.92),I('b','Stage 2 efficiency','','n',.97),I('c','Stage 3 efficiency','','n',.95),I('d','Stage 4 efficiency','','n',1)],
-run:v=>{const e=v.a*v.b*v.c*v.d;return[O('Overall efficiency','','n',e),O('Output power','kW','Pk',v.P*e),O('Total losses','kW','Pk',v.P*(1-e))]}},
-{id:'lin',c:'Power',n:'Work, energy & power',d:'Linear power P = F·v, kinetic energy and energy used over time.',in:[I('F','Force','N','F',500),I('v','Speed','m/s','v',2),I('m','Mass','kg','M',100),I('t','Run time','h','n',8)],
-run:v=>{const P=v.F*v.v;return[O('Power','W','Pw',P),O('Power','kW','Pk',P/1000),O('Kinetic energy','J','n',.5*v.m*v.v*v.v),O('Energy over run time','kWh','n',P/1000*v.t)]}}];
-const R=[{id:'mat',c:'Reference',n:'Material properties',d:'Typical room-temperature values. Click any value to pin it to the chain bin.',
-h:['Material','E (GPa)','Sy (MPa)','Su (MPa)','ρ (kg/m³)','α (µm/m·K)'],k:[0,'E','S','S','rho','alpha'],
-r:[['AISI 1018 CD steel',205,370,440,7870,11.7],['AISI 1045 HR steel',205,310,565,7850,11.5],['AISI 4140 Q&T steel',205,655,1020,7850,12.3],['Stainless 304',193,215,505,8000,17.3],['Aluminium 6061-T6',68.9,276,310,2700,23.6],['Aluminium 7075-T6',71.7,503,572,2810,23.6],['Titanium Ti-6Al-4V',114,880,950,4430,8.6],['Gray cast iron ASTM 40',110,null,293,7200,10.5],['Copper C11000 (annealed)',117,69,220,8940,17]]},
-{id:'thr',c:'Reference',n:'Metric coarse threads',d:'ISO coarse series. Click a value to pin it.',h:['Size','Major d (mm)','Pitch (mm)','Tensile area At (mm²)'],k:[0,'L','L','A'],
-r:[['M3',3,.5,5.03],['M4',4,.7,8.78],['M5',5,.8,14.2],['M6',6,1,20.1],['M8',8,1.25,36.6],['M10',10,1.5,58],['M12',12,1.75,84.3],['M14',14,2,115],['M16',16,2,157],['M20',20,2.5,245],['M24',24,3,353]]}];
-const MG={id:'src',c:'More / Custom',n:'Manage sources',d:'Add or remove custom calculation sources.',in:[],manage:1};let ALL=[...T,...R,MG];let S={},bin=[],cur,nid=0;
-const $=s=>document.querySelector(s),f=x=>!isFinite(x)?'—':(Math.abs(x)>=1e7||(x!==0&&Math.abs(x)<1e-3))?x.toExponential(3):(+x.toPrecision(6)).toLocaleString('en-US',{maximumFractionDigits:8});
-function say(m){const e=$('#st');e.textContent=m;e.classList.add('on');clearTimeout(say.t);say.t=setTimeout(()=>e.classList.remove('on'),2200)}
-function nav(q=''){let h='',c='';ALL.filter(t=>(t.n+t.c).toLowerCase().includes(q.toLowerCase())).forEach(t=>{if(t.c!=c){c=t.c;h+=`<h3>${c}</h3>`}h+=`<a href="#${t.id}" ${cur&&cur.id==t.id?'aria-current="page"':''}>${t.n}</a>`});$('#nav').innerHTML=h||'<p class="p">No match.</p>'}
-const ok=(i,k)=>i.kind&&k&&(i.kind==k||i.kind=='any'||k=='any');
-function show(id){cur=ALL.find(t=>t.id==id)||T[0];nav($('#q').value);const m=$('#main');let h=`<h2>${cur.n}</h2><p class="p">${cur.d}</p>`;
-if(cur.h){h+=`<div class="tw"><table><thead><tr>${cur.h.map(x=>`<th scope="col">${x}</th>`).join('')}</tr></thead><tbody>${cur.r.map((r,ri)=>`<tr>${r.map((c,i)=>i==0?`<th scope="row">${c}</th>`:c==null?'<td>—</td>':`<td><button data-cell="${ri},${i}" title="Pin to bin">${c}</button></td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
-else{h+='<div class="grid">'+cur.in.map(i=>{const v=(S[cur.id]||{})[i.k]??i.v;return`<div class="f"><label for="i_${i.k}">${i.l} ${i.u?`<small>(${i.u})</small>`:''}</label>`+(i.o?`<select id="i_${i.k}" data-k="${i.k}">${i.o.map(o=>`<option value="${o[0]}" ${o[0]==v?'selected':''}>${o[1]}</option>`).join('')}</select>`:`<div class="row"><input id="i_${i.k}" data-k="${i.k}" type="number" step="any" inputmode="decimal" value="${v}"><select data-pick="${i.k}" aria-label="Insert ${i.l} from bin"></select></div>`)+'</div>'}).join('')+'</div><div class="res" id="out" aria-live="polite"></div>'}
-m.innerHTML=h;if(cur.manage){manager();document.title='Custom sources – MechKit';return}pickers();calc();document.title=cur.n+' – MechKit'}
-function vals(){const v={};for(const i of cur.in){const e=$('#i_'+i.k);v[i.k]=i.o?e.value:e.value===''?NaN:+e.value}return v}
-let outs=[];function calc(){const v=vals();S[cur.id]=Object.assign(S[cur.id]||{},Object.fromEntries(Object.entries(v).filter(([k,x])=>!(x!==x))));const el=$('#out');
-if(Object.values(v).some(x=>x!==x)){el.innerHTML='<p class="p">Enter every input to see results.</p>';outs=[];return}
-outs=cur.run(v);el.innerHTML='<h3>Results</h3>'+outs.map((o,n)=>{if(o.msg)return`<p>${o.msg}</p>`;const tg=ALL.filter(t=>t.in&&t.id!=cur.id).map(t=>({t,l:t.in.filter(i=>ok(i,o.kind))})).filter(x=>x.l.length);
-return`<div class="o"><span>${o.l}</span><b>${f(o.val)} <small>${o.u||''}</small></b><div class="a"><button data-pin="${n}">＋ Pin to bin</button><select data-send="${n}" aria-label="Send ${o.l} to another tool"><option value="">→ Send to tool…</option>${tg.map(x=>`<optgroup label="${x.t.n}">${x.l.map(i=>`<option value="${x.t.id}|${i.k}">${i.l}</option>`).join('')}</optgroup>`).join('')}</select></div></div>`}).join('')+'<p class="note">Check units: lengths mm, forces N, stresses MPa unless noted. Results are for learning and quick estimates – verify against codes and standards.</p>'}
-function pickers(){document.querySelectorAll('[data-pick]').forEach(s=>{const i=cur.in.find(x=>x.k==s.dataset.pick),c=bin.filter(b=>ok(i,b.kind));s.innerHTML='<option value="">↤</option>'+c.map(b=>`<option value="${b.id}">${b.l}: ${f(b.val)} ${b.u||''}</option>`).join('');s.disabled=!c.length;s.title=c.length?'Insert value from bin':'No compatible values in bin'})}
-function binui(){$('#binl').innerHTML=`<h2 style="font-size:1.05rem">Chain bin</h2><p class="p" style="margin:0"><small>Pin results here or add your own below, then insert them into any compatible input with the ↤ menu.</small></p><ul>${bin.map(b=>`<li><span><b>${f(b.val)}</b> ${b.u||''}<small>${b.l}</small></span><button data-del="${b.id}" aria-label="Remove ${b.l}">✕</button></li>`).join('')||'<li><small>Empty</small></li>'}</ul>${bin.length?'<button data-clr>Clear all</button>':''}`;if(cur&&cur.in)pickers()}
-function pin(l,val,kind,u){bin.unshift({id:++nid,l,val,kind,u});binui();say('Pinned: '+l)}
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
-if(d.pin!==undefined){const o=outs[d.pin];pin(cur.n+' – '+o.l,o.val,o.kind,o.u)}
-else if(d.cell){const[r,c]=d.cell.split(',').map(Number),row=cur.r[r];pin(row[0]+' '+cur.h[c].replace(/ \(.*/,''),row[c],cur.k[c],(cur.h[c].match(/\((.*)\)/)||[])[1])}
-else if(d.del){bin=bin.filter(x=>x.id!=d.del);binui()}else if(d.clr!==undefined){bin=[];binui()}
-else if(b.id=='menu'){const n=$('#nav').classList.toggle('open');b.setAttribute('aria-expanded',n)}});
-document.addEventListener('input',e=>{if(e.target.dataset.k)calc();if(e.target.id=='q')nav(e.target.value)});
-document.addEventListener('change',e=>{const t=e.target,d=t.dataset;
-if(d.k)calc();
-if(d.pick&&t.value){const b=bin.find(x=>x.id==t.value);$('#i_'+d.pick).value=+b.val.toPrecision(8);t.selectedIndex=0;calc();say('Inserted '+f(b.val))}
-if(d.send&&t.value){const o=outs[d.send],[id,k]=t.value.split('|');(S[id]=S[id]||{})[k]=+o.val.toPrecision(8);location.hash=id;say('Sent '+f(o.val)+' to '+ALL.find(x=>x.id==id).n)}});
-addEventListener('hashchange',()=>{show(location.hash.slice(1));$('#nav').classList.remove('open')});
-const BU=[['mm','L','length'],['m','Lm','length'],['N','F','force'],['MPa','S','stress / pressure'],['N·m','T','torque / moment'],['GPa','E','modulus'],['mm²','A','area'],['mm⁴','I','second moment'],['mm³','Z','section modulus'],['rpm','N','speed'],['kW','Pk','power'],['W','Pw','power / heat flow'],['°C','C','temperature'],['kPa','Pkpa','pressure'],['kJ','Qk','energy'],['kg','M','mass'],['kg/m³','rho','density'],['µm/m·K','alpha','expansion coeff.'],['m/s','v','velocity'],['L/min','Q','flow rate'],['deg','deg','angle'],['(none)','n','dimensionless']];
-$('#au').innerHTML=BU.map(([u,k,n])=>`<option value="${k}|${u}">${u} – ${n}</option>`).join('')+'<option value="any|">Other (custom unit)…</option>';
-$('#au').onchange=e=>{$('#acw').hidden=!e.target.value.startsWith('any|')};
-$('#add').onsubmit=e=>{e.preventDefault();const[k,u]=$('#au').value.split('|');pin($('#ad').value.trim(),+$('#av').value,k,k=='any'?$('#ac').value.trim():u=='(none)'?'':u);e.target.reset();$('#acw').hidden=true;$('#ad').focus()};
-/* ---- custom JSON sources ---- */
-const FN={sqrt:Math.sqrt,sin:Math.sin,cos:Math.cos,tan:Math.tan,asin:Math.asin,acos:Math.acos,atan:Math.atan,atan2:Math.atan2,ln:Math.log,log:Math.log10,exp:Math.exp,abs:Math.abs,min:Math.min,max:Math.max,pow:Math.pow,round:Math.round,floor:Math.floor,ceil:Math.ceil,hypot:Math.hypot,rad:x=>x*DG,deg:x=>x/DG};
-function compile(src){src=String(src);const tk=src.match(/(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?|[A-Za-z_]\w*|'[^']*'|"[^"]*"|\*\*|<=|>=|==|!=|[-+*\/^%(),<>]/gi)||[];
-if(tk.join('').replace(/\s/g,'').length!=src.replace(/\s/g,'').length)throw new Error('Unsupported character in formula: '+src);
-let i=0;const pk=()=>tk[i],ex=t=>{if(tk[i++]!=t)throw new Error('Expected '+t+' in: '+src)};
-const cmp=()=>{const a=add(),o=pk();if(['<','>','<=','>=','==','!='].includes(o)){i++;const b=add();return s=>{const x=a(s),y=b(s);return +(o=='<'?x<y:o=='>'?x>y:o=='<='?x<=y:o=='>='?x>=y:o=='=='?x==y:x!=y)}}return a};
-const add=()=>{let a=mul();while(pk()=='+'||pk()=='-'){const o=tk[i++],b=mul(),l=a;a=o=='+'?s=>l(s)+b(s):s=>l(s)-b(s)}return a};
-const mul=()=>{let a=un();while(['*','/','%'].includes(pk())){const o=tk[i++],b=un(),l=a;a=o=='*'?s=>l(s)*b(s):o=='/'?s=>l(s)/b(s):s=>l(s)%b(s)}return a};
-const un=()=>{if(pk()=='-'){i++;const a=un();return s=>-a(s)}return pw()};
-const pw=()=>{const a=pr();if(pk()=='^'||pk()=='**'){i++;const b=un();return s=>a(s)**b(s)}return a};
-const pr=()=>{const t=tk[i++];if(t===undefined)throw new Error('Formula ended early: '+src);
-if(/^[\d.]/.test(t)){const n=+t;return()=>n}if(/^['"]/.test(t)){const q=t.slice(1,-1);return()=>q}if(t=='('){const a=cmp();ex(')');return a}
-if(/^[A-Za-z_]/.test(t)){if(pk()=='('){i++;const a=[];if(pk()!=')'){do a.push(cmp());while(pk()==','&&i++)}ex(')');if(t=='if')return s=>a[0](s)?a[1](s):a[2](s);if(!Object.hasOwn(FN,t))throw new Error('Unknown function '+t+'()');const f=FN[t];return s=>f(...a.map(x=>x(s)))}
-return s=>{if(!(t in s))throw new Error('Unknown variable '+t);return s[t]}}throw new Error('Unexpected '+t+' in: '+src)};
-const r=cmp();if(i<tk.length)throw new Error('Unexpected '+tk[i]+' in: '+src);return r}
-function build(sid,j){if(Array.isArray(j))j={tools:j};else if(j&&!j.tools)j={tools:[j]};if(!j||!Array.isArray(j.tools)||!j.tools.length)throw new Error('No tools found in JSON');
-return j.tools.map((t,n)=>{if(!t.name||!Array.isArray(t.inputs)||!Array.isArray(t.outputs)||!t.outputs.length)throw new Error('Tool '+(n+1)+' needs name, inputs[] and outputs[]');
-const ins=t.inputs.map(x=>{if(!/^[A-Za-z_]\w*$/.test(x.key||''))throw new Error('Bad input key in "'+t.name+'"');return x.options?Sel(x.key,x.label||x.key,x.options.map(o=>Array.isArray(o)?o:[o,o]),x.default??(Array.isArray(x.options[0])?x.options[0][0]:x.options[0])):I(x.key,x.label||x.key,x.unit||'',x.kind||'any',x.default??0)});
-const vs=(t.vars||[]).map(x=>[x.name,compile(x.formula)]),os=t.outputs.map(o=>[o,compile(o.formula)]);
-return{id:'c_'+sid+'_'+String(t.id||n).replace(/\W/g,'_'),c:'More / Custom',n:t.name,d:(t.description||'')+' (Custom source: '+(j.name||'untitled')+')',in:ins,
-run:v=>{try{const s=Object.assign(Object.create(null),{pi:PI,e:Math.E});ins.forEach(x=>{s[x.k]=x.o?(x.o.find(o=>String(o[0])==v[x.k])||[v[x.k]])[0]:v[x.k]});vs.forEach(([k,f])=>s[k]=f(s));return os.map(([o,f])=>O(o.label||'Result',o.unit||'',o.kind||'any',f(s)))}catch(e){return[{msg:'Error: '+e.message}]}}}})}
-const EX={name:'Example pack',tools:[{id:'cyl',name:'Hollow cylinder mass',description:'Volume and mass of a hollow cylinder.',inputs:[{key:'D',label:'Outer dia',unit:'mm',kind:'L',default:50},{key:'d',label:'Inner dia',unit:'mm',kind:'L',default:30},{key:'L',label:'Length',unit:'mm',kind:'L',default:100},{key:'rho',label:'Material',options:[[7850,'Steel'],[2700,'Aluminium'],[8960,'Copper']],default:7850}],vars:[{name:'V',formula:'pi/4*(D^2-d^2)*L'}],outputs:[{label:'Volume',unit:'mm³',kind:'any',formula:'V'},{label:'Mass',unit:'kg',kind:'M',formula:'V*1e-9*rho'}]}]};
-let SRC=[];const ST='mechkit_src',esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
-function save(){try{localStorage.setItem(ST,JSON.stringify(SRC.map(({id,name,type,url,text})=>({id,name,type,url,text}))))}catch(e){}}
-function reb(){ALL=[...T,...R,MG,...SRC.flatMap(s=>s.tools)];nav($('#q').value)}
-function mkSrc(o){const s={...o};try{const j=JSON.parse(s.text);s.name=s.name||(j&&j.name)||s.fname||'Untitled source';s.tools=build(s.id,j);s.err=null}catch(e){s.tools=[];s.err=e.message;s.name=s.name||s.fname||'Invalid source'}return s}
-const note=m=>{const e=$('#sm');if(e)e.textContent=m};
-function add(o){const s=mkSrc({id:Math.random().toString(36).slice(2,7),...o});if(s.err)return note('Not added: '+s.err);SRC.push(s);save();reb();manager('Added "'+s.name+'" ('+s.tools.length+' tool'+(s.tools.length==1?'':'s')+').')}
-async function fromUrl(u){try{const r=await fetch(u);if(!r.ok)throw new Error('HTTP '+r.status);return await r.text()}catch(e){throw new Error('Could not load the URL ('+e.message+'). The host must allow cross-origin requests (CORS), and this hosted page may block outside requests entirely. Download the file and use Upload or Paste instead.')}}
-function manager(msg=''){$('#main').innerHTML=`<h2>Manage custom sources</h2><p class="p">Add JSON files of your own calculations. They appear in the sidebar under More / Custom and work with the chain bin and Send to tool menus. Sources are saved in this browser only.</p><div id="sm" role="status" aria-live="polite" class="note" style="color:var(--tx)"></div>
-<div class="grid"><div class="f"><label for="sf">Upload JSON file(s)</label><input id="sf" type="file" accept=".json,application/json" multiple></div><div class="f"><label for="su">Load from URL</label><div class="row"><input id="su" type="url" placeholder="https://…/tools.json"><button id="sub">Add</button></div></div></div>
-<div class="f" style="margin-top:12px"><label for="sp">Or paste JSON</label><textarea id="sp" rows="6" spellcheck="false"></textarea><div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><button id="spb">Add pasted JSON</button><button id="sex">Add example source</button></div></div>
-<div class="res"><h3>Sources</h3><ul class="sl">${SRC.map(s=>`<li><span><b>${esc(s.name)}</b> <small>${s.type}${s.url?' · '+esc(s.url):''} · ${s.err?'<span class="err">'+esc(s.err)+'</span>':s.tools.length+' tool'+(s.tools.length==1?'':'s')}</small></span><span>${s.url?`<button data-rf="${s.id}">↻ Refresh</button> `:''}<button data-rm="${s.id}" aria-label="Remove source ${esc(s.name)}">Remove</button></span></li>`).join('')||'<li><small>No sources yet.</small></li>'}</ul></div>
-<details class="res"><summary>JSON format &amp; example</summary><p class="note">A file is an object with <code>tools</code> (or just one tool, or an array of tools). Each tool has <code>name</code>, <code>inputs</code> and <code>outputs</code>; optional <code>vars</code> are intermediate formulas computed in order. An input is <code>key, label, unit, kind, default</code> or has <code>options</code> (values or [value,label] pairs) for a dropdown. Use <code>kind</code> (e.g. L, F, S, T, E, A, I, N, Pk, C, M) so values chain to matching inputs; omit it to match anything. Formulas support + − * / % ^, comparisons, <code>if(cond,a,b)</code>, pi, e, and sqrt sin cos tan asin acos atan atan2 ln log exp abs min max pow round floor ceil hypot rad deg. Formulas are parsed, never executed as code.</p><pre>${esc(JSON.stringify(EX,null,1))}</pre></details>`;note(msg)}
-document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
-if(d.rm){const s=SRC.find(x=>x.id==d.rm);SRC=SRC.filter(x=>x.id!=d.rm);save();reb();manager('Removed "'+s.name+'".');say('Source removed')}
-else if(d.rf){const s=SRC.find(x=>x.id==d.rf);try{const n=mkSrc({...s,text:await fromUrl(s.url)});if(n.err)return note('Refresh failed: '+n.err);SRC[SRC.indexOf(s)]=n;save();reb();manager('Refreshed "'+n.name+'".')}catch(er){note(er.message)}}
-else if(b.id=='sub'){const u=$('#su').value.trim();if(u)try{add({type:'url',url:u,text:await fromUrl(u)})}catch(er){note(er.message)}}
-else if(b.id=='spb'){add({type:'pasted',text:$('#sp').value})}else if(b.id=='sex'){add({type:'example',text:JSON.stringify(EX)})}});
-document.addEventListener('change',async e=>{if(e.target.id!='sf')return;for(const f of e.target.files)add({type:'file',fname:f.name.replace(/\.json$/i,''),text:await f.text()});e.target.value=''});
-try{JSON.parse(localStorage.getItem(ST)||'[]').forEach(o=>SRC.push(mkSrc(o)))}catch(e){}reb();
-binui();show(location.hash.slice(1)||'conv');
-</script></body></html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>MechKit: Mechanical Engineering Toolkit</title>
+    <meta
+      name="description"
+      content="Free mechanical engineering calculators and reference tables that run entirely in your browser."
+    />
+    <meta name="referrer" content="no-referrer" />
+    <style>
+      :root {
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        --bg: #f6f7f9;
+        --sf: #fff;
+        --tx: #1a1f2b;
+        --mu: #5b6475;
+        --ac: #0b5fd1;
+        --ac2: #e4eeff;
+        --bd: #d5dae3;
+        --ok: #0a7a45;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          color-scheme: dark;
+          --bg: #12151c;
+          --sf: #1b1f29;
+          --tx: #e8ebf2;
+          --mu: #9aa3b5;
+          --ac: #6aa8ff;
+          --ac2: #1f3354;
+          --bd: #343b4b;
+          --ok: #4cd08a;
+        }
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #12151c;
+        --sf: #1b1f29;
+        --tx: #e8ebf2;
+        --mu: #9aa3b5;
+        --ac: #6aa8ff;
+        --ac2: #1f3354;
+        --bd: #343b4b;
+        --ok: #4cd08a;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--tx);
+        font:
+          16px/1.5 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+      }
+      :focus-visible {
+        outline: 3px solid var(--ac);
+        outline-offset: 2px;
+      }
+      .skip {
+        position: absolute;
+        left: -999px;
+      }
+      .skip:focus {
+        left: 8px;
+        top: 8px;
+        background: var(--sf);
+        padding: 8px;
+        z-index: 9;
+      }
+      header {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 12px 16px;
+        background: var(--sf);
+        border-bottom: 1px solid var(--bd);
+      }
+      h1 {
+        font-size: 1.2rem;
+        margin: 0;
+      }
+      h2 {
+        margin: 0 0 4px;
+      }
+      input,
+      select,
+      button {
+        font: inherit;
+        color: var(--tx);
+        background: var(--sf);
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        padding: 8px 10px;
+        min-height: 40px;
+      }
+      input[type="search"] {
+        flex: 1;
+        min-width: 160px;
+        max-width: 360px;
+      }
+      input[type="checkbox"] {
+        min-height: auto;
+        width: auto;
+        cursor: pointer;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:hover {
+        background: var(--ac2);
+      }
+      .btn-small {
+        min-height: 32px !important;
+        padding: 4px 10px !important;
+        font-size: 0.85rem !important;
+      }
+      .wrap {
+        display: grid;
+        grid-template-columns: 230px minmax(0, 1fr) 260px;
+        gap: 16px;
+        padding: 16px;
+        max-width: 1300px;
+        margin: auto;
+      }
+      nav,
+      aside,
+      main {
+        background: var(--sf);
+        border: 1px solid var(--bd);
+        border-radius: 12px;
+        padding: 14px;
+        align-self: start;
+      }
+      nav h3 {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--mu);
+        margin: 12px 0 4px;
+      }
+      nav h3:first-child {
+        margin-top: 0;
+      }
+      nav a {
+        display: block;
+        padding: 6px 10px;
+        border-radius: 6px;
+        color: var(--tx);
+        text-decoration: none;
+      }
+      nav a:hover {
+        background: var(--ac2);
+      }
+      nav a[aria-current] {
+        background: var(--ac);
+        color: var(--bg);
+        font-weight: 600;
+      }
+      .p {
+        color: var(--mu);
+        margin: 0 0 14px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+      }
+      .f label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 2px;
+      }
+      .f small {
+        color: var(--mu);
+        font-weight: 400;
+      }
+      .row {
+        display: flex;
+        gap: 6px;
+      }
+      .row input,
+      .row select:first-child {
+        flex: 1;
+        min-width: 0;
+      }
+      .row select[data-pick] {
+        width: 52px;
+        padding: 0 4px;
+      }
+      .f > select,
+      .f > input {
+        width: 100%;
+      }
+      .res {
+        margin-top: 18px;
+        border-top: 1px solid var(--bd);
+        padding-top: 12px;
+      }
+      .o {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 4px 10px;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px dashed var(--bd);
+      }
+      .o b {
+        font-size: 1.15rem;
+        color: var(--ok);
+      }
+      .o .a {
+        grid-column: 1/-1;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .o .a select {
+        max-width: 100%;
+        min-height: 34px;
+        padding: 4px 8px;
+      }
+      .o .a button {
+        min-height: 34px;
+        padding: 4px 10px;
+      }
+      .tw {
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border-bottom: 1px solid var(--bd);
+        padding: 6px 8px;
+        text-align: left;
+        white-space: nowrap;
+      }
+      td button {
+        min-height: 28px;
+        padding: 2px 8px;
+        border-style: dashed;
+      }
+      th button {
+        min-height: 24px;
+        padding: 1px 6px;
+        border-style: dashed;
+        font-size: 0.72rem;
+        font-weight: 400;
+        margin-top: 4px;
+      }
+      .bin li {
+        display: flex;
+        justify-content: space-between;
+        gap: 6px;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--bd);
+        font-size: 0.9rem;
+        list-style: none;
+      }
+      .bin ul {
+        padding: 0;
+        margin: 8px 0;
+      }
+      .bin small {
+        color: var(--mu);
+        display: block;
+      }
+      .note {
+        color: var(--mu);
+        font-size: 0.85rem;
+        margin-top: 12px;
+      }
+      #add {
+        margin-top: 14px;
+        border-top: 1px solid var(--bd);
+        padding-top: 10px;
+      }
+      #add h3 {
+        margin: 0 0 4px;
+        font-size: 1rem;
+      }
+      #add .f {
+        margin-top: 8px;
+      }
+      #add button {
+        margin-top: 10px;
+        width: 100%;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .sl {
+        padding: 0;
+        list-style: none;
+      }
+      .sl li {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--bd);
+      }
+      .err {
+        color: #b3261e;
+      }
+      @media (prefers-color-scheme: dark) {
+        .err {
+          color: #ff8a80;
+        }
+      }
+      footer {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 4px 16px 28px;
+        color: var(--mu);
+        font-size: 0.85rem;
+      }
+      footer a {
+        color: var(--ac);
+        margin-right: 14px;
+        display: inline-block;
+        padding: 4px 0;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+      textarea {
+        font:
+          13px/1.4 ui-monospace,
+          monospace;
+        color: var(--tx);
+        background: var(--sf);
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        padding: 8px;
+        width: 100%;
+      }
+      pre {
+        overflow: auto;
+        background: var(--bg);
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+      }
+      #st {
+        position: fixed;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--tx);
+        color: var(--bg);
+        padding: 8px 14px;
+        border-radius: 20px;
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+        z-index: 10;
+      }
+      #st.on {
+        opacity: 1;
+      }
+      .table-header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      @media (max-width: 960px) {
+        .wrap {
+          grid-template-columns: 1fr;
+        }
+        nav {
+          display: none;
+        }
+        nav.open {
+          display: block;
+        }
+        #menu {
+          display: inline-block;
+        }
+      }
+      @media (min-width: 961px) {
+        #menu {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to tool</a>
+    <header>
+      <button id="menu" aria-expanded="false" aria-controls="nav">☰ Tools</button>
+      <h1>⚙️ MechKit</h1>
+      <input type="search" id="q" placeholder="Search tools…" aria-label="Search tools" />
+    </header>
+    <div class="wrap">
+      <nav id="nav" aria-label="Tools"></nav>
+      <main id="main" tabindex="-1"></main>
+      <aside id="bin" class="bin" aria-label="Chain bin">
+        <div id="binl"></div>
+        <form id="add" aria-labelledby="addh">
+          <h3 id="addh">Add your own value</h3>
+          <div class="f">
+            <label for="ad">Description</label
+            ><input id="ad" required maxlength="60" placeholder="e.g. Shaft diameter" />
+          </div>
+          <div class="f">
+            <label for="av">Value</label
+            ><input id="av" type="number" step="any" inputmode="decimal" required />
+          </div>
+          <div class="f">
+            <label for="au">Unit</label><select id="au"></select>
+          </div>
+          <div class="f" id="acw" hidden>
+            <label for="ac">Custom unit</label
+            ><input id="ac" maxlength="20" placeholder="e.g. W/m·K" />
+          </div>
+          <button type="submit">＋ Add to bin</button>
+          <p class="note">
+            Standard units match the tool inputs, so the value is offered wherever it fits. Custom
+            units can be inserted into any input.
+          </p>
+        </form>
+      </aside>
+    </div>
+    <footer>
+      <div role="navigation" aria-label="Legal and information">
+        <a href="./privacy_policy.html">Privacy</a>
+        <a href="./terms.html">Terms &amp; disclaimer</a>
+        <a href="./accessibility.html">Accessibility</a>
+        <a href="./contact.html">Contact &amp; legal notice</a>
+      </div>
+      <p>
+        Educational estimates only. Verify results against applicable codes and standards before
+        use. Calculations run in your browser; nothing you enter is sent to us.
+      </p>
+    </footer>
+    <div id="st" role="status" aria-live="polite"></div>
+    
+    <!-- External JavaScript file -->
+    <script src="script.js"></script>
+  </body>
+</html>

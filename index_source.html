@@ -1,0 +1,2232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>MechKit – Mechanical Engineering Toolkit</title>
+    <meta
+      name="description"
+      content="Free mechanical engineering calculators and reference tables that run entirely in your browser."
+    />
+    <meta name="referrer" content="no-referrer" />
+    <style>
+      :root {
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        --bg: #f6f7f9;
+        --sf: #fff;
+        --tx: #1a1f2b;
+        --mu: #5b6475;
+        --ac: #0b5fd1;
+        --ac2: #e4eeff;
+        --bd: #d5dae3;
+        --ok: #0a7a45;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          color-scheme: dark;
+          --bg: #12151c;
+          --sf: #1b1f29;
+          --tx: #e8ebf2;
+          --mu: #9aa3b5;
+          --ac: #6aa8ff;
+          --ac2: #1f3354;
+          --bd: #343b4b;
+          --ok: #4cd08a;
+        }
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #12151c;
+        --sf: #1b1f29;
+        --tx: #e8ebf2;
+        --mu: #9aa3b5;
+        --ac: #6aa8ff;
+        --ac2: #1f3354;
+        --bd: #343b4b;
+        --ok: #4cd08a;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--tx);
+        font:
+          16px/1.5 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+      }
+      :focus-visible {
+        outline: 3px solid var(--ac);
+        outline-offset: 2px;
+      }
+      .skip {
+        position: absolute;
+        left: -999px;
+      }
+      .skip:focus {
+        left: 8px;
+        top: 8px;
+        background: var(--sf);
+        padding: 8px;
+        z-index: 9;
+      }
+      header {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 12px 16px;
+        background: var(--sf);
+        border-bottom: 1px solid var(--bd);
+      }
+      h1 {
+        font-size: 1.2rem;
+        margin: 0;
+      }
+      h2 {
+        margin: 0 0 4px;
+      }
+      input,
+      select,
+      button {
+        font: inherit;
+        color: var(--tx);
+        background: var(--sf);
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        padding: 8px 10px;
+        min-height: 40px;
+      }
+      input[type="search"] {
+        flex: 1;
+        min-width: 160px;
+        max-width: 360px;
+      }
+      input[type="checkbox"] {
+        min-height: auto;
+        width: auto;
+        cursor: pointer;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:hover {
+        background: var(--ac2);
+      }
+      .btn-small {
+        min-height: 32px !important;
+        padding: 4px 10px !important;
+        font-size: 0.85rem !important;
+      }
+      .wrap {
+        display: grid;
+        grid-template-columns: 230px minmax(0, 1fr) 260px;
+        gap: 16px;
+        padding: 16px;
+        max-width: 1300px;
+        margin: auto;
+      }
+      nav,
+      aside,
+      main {
+        background: var(--sf);
+        border: 1px solid var(--bd);
+        border-radius: 12px;
+        padding: 14px;
+        align-self: start;
+      }
+      nav h3 {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--mu);
+        margin: 12px 0 4px;
+      }
+      nav h3:first-child {
+        margin-top: 0;
+      }
+      nav a {
+        display: block;
+        padding: 6px 10px;
+        border-radius: 6px;
+        color: var(--tx);
+        text-decoration: none;
+      }
+      nav a:hover {
+        background: var(--ac2);
+      }
+      nav a[aria-current] {
+        background: var(--ac);
+        color: var(--bg);
+        font-weight: 600;
+      }
+      .p {
+        color: var(--mu);
+        margin: 0 0 14px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+      }
+      .f label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 2px;
+      }
+      .f small {
+        color: var(--mu);
+        font-weight: 400;
+      }
+      .row {
+        display: flex;
+        gap: 6px;
+      }
+      .row input,
+      .row select:first-child {
+        flex: 1;
+        min-width: 0;
+      }
+      .row select[data-pick] {
+        width: 52px;
+        padding: 0 4px;
+      }
+      .f > select,
+      .f > input {
+        width: 100%;
+      }
+      .res {
+        margin-top: 18px;
+        border-top: 1px solid var(--bd);
+        padding-top: 12px;
+      }
+      .o {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 4px 10px;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px dashed var(--bd);
+      }
+      .o b {
+        font-size: 1.15rem;
+        color: var(--ok);
+      }
+      .o .a {
+        grid-column: 1/-1;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .o .a select {
+        max-width: 100%;
+        min-height: 34px;
+        padding: 4px 8px;
+      }
+      .o .a button {
+        min-height: 34px;
+        padding: 4px 10px;
+      }
+      .tw {
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border-bottom: 1px solid var(--bd);
+        padding: 6px 8px;
+        text-align: left;
+        white-space: nowrap;
+      }
+      td button {
+        min-height: 28px;
+        padding: 2px 8px;
+        border-style: dashed;
+      }
+      th button {
+        min-height: 24px;
+        padding: 1px 6px;
+        border-style: dashed;
+        font-size: 0.72rem;
+        font-weight: 400;
+        margin-top: 4px;
+      }
+      .bin li {
+        display: flex;
+        justify-content: space-between;
+        gap: 6px;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--bd);
+        font-size: 0.9rem;
+        list-style: none;
+      }
+      .bin ul {
+        padding: 0;
+        margin: 8px 0;
+      }
+      .bin small {
+        color: var(--mu);
+        display: block;
+      }
+      .note {
+        color: var(--mu);
+        font-size: 0.85rem;
+        margin-top: 12px;
+      }
+      #add {
+        margin-top: 14px;
+        border-top: 1px solid var(--bd);
+        padding-top: 10px;
+      }
+      #add h3 {
+        margin: 0 0 4px;
+        font-size: 1rem;
+      }
+      #add .f {
+        margin-top: 8px;
+      }
+      #add button {
+        margin-top: 10px;
+        width: 100%;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .sl {
+        padding: 0;
+        list-style: none;
+      }
+      .sl li {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--bd);
+      }
+      .err {
+        color: #b3261e;
+      }
+      @media (prefers-color-scheme: dark) {
+        .err {
+          color: #ff8a80;
+        }
+      }
+      footer {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 4px 16px 28px;
+        color: var(--mu);
+        font-size: 0.85rem;
+      }
+      footer a {
+        color: var(--ac);
+        margin-right: 14px;
+        display: inline-block;
+        padding: 4px 0;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+      textarea {
+        font:
+          13px/1.4 ui-monospace,
+          monospace;
+        color: var(--tx);
+        background: var(--sf);
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        padding: 8px;
+        width: 100%;
+      }
+      pre {
+        overflow: auto;
+        background: var(--bg);
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+      }
+      #st {
+        position: fixed;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--tx);
+        color: var(--bg);
+        padding: 8px 14px;
+        border-radius: 20px;
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+        z-index: 10;
+      }
+      #st.on {
+        opacity: 1;
+      }
+      .table-header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      @media (max-width: 960px) {
+        .wrap {
+          grid-template-columns: 1fr;
+        }
+        nav {
+          display: none;
+        }
+        nav.open {
+          display: block;
+        }
+        #menu {
+          display: inline-block;
+        }
+      }
+      @media (min-width: 961px) {
+        #menu {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to tool</a>
+    <header>
+      <button id="menu" aria-expanded="false" aria-controls="nav">☰ Tools</button>
+      <h1>⚙️ MechKit</h1>
+      <input type="search" id="q" placeholder="Search tools…" aria-label="Search tools" />
+    </header>
+    <div class="wrap">
+      <nav id="nav" aria-label="Tools"></nav>
+      <main id="main" tabindex="-1"></main>
+      <aside id="bin" class="bin" aria-label="Chain bin">
+        <div id="binl"></div>
+        <form id="add" aria-labelledby="addh">
+          <h3 id="addh">Add your own value</h3>
+          <div class="f">
+            <label for="ad">Description</label
+            ><input id="ad" required maxlength="60" placeholder="e.g. Shaft diameter" />
+          </div>
+          <div class="f">
+            <label for="av">Value</label
+            ><input id="av" type="number" step="any" inputmode="decimal" required />
+          </div>
+          <div class="f">
+            <label for="au">Unit</label><select id="au"></select>
+          </div>
+          <div class="f" id="acw" hidden>
+            <label for="ac">Custom unit</label
+            ><input id="ac" maxlength="20" placeholder="e.g. W/m·K" />
+          </div>
+          <button type="submit">＋ Add to bin</button>
+          <p class="note">
+            Standard units match the tool inputs, so the value is offered wherever it fits. Custom
+            units can be inserted into any input.
+          </p>
+        </form>
+      </aside>
+    </div>
+    <footer>
+      <div role="navigation" aria-label="Legal and information">
+        <a href="./privacy_policy.html">Privacy</a>
+        <a href="./terms.html">Terms &amp; disclaimer</a>
+        <a href="./accessibility.html">Accessibility</a>
+        <a href="./contact.html">Contact &amp; legal notice</a>
+      </div>
+      <p>
+        Educational estimates only – verify results against applicable codes and standards before
+        use. Calculations run in your browser; nothing you enter is sent to us.
+      </p>
+    </footer>
+    <div id="st" role="status" aria-live="polite"></div>
+    <script>
+      const PI = Math.PI,
+        DEG_TO_RAD = PI / 180,
+        numberInput = (key, label, unit, kind, defaultValue) => ({
+          k: key,
+          l: label,
+          u: unit,
+          kind,
+          v: defaultValue,
+        }),
+        result = (label, unit, kind, value) => ({
+          l: label,
+          u: unit,
+          kind,
+          val: value,
+        }),
+        selectInput = (key, label, options, defaultValue) => ({
+          k: key,
+          l: label,
+          o: options,
+          v: defaultValue,
+        });
+      const UNIT_TABLE = {
+        Length: { mm: 1, m: 1000, cm: 10, in: 25.4, ft: 304.8 },
+        Force: { N: 1, kN: 1000, lbf: 4.44822, kgf: 9.80665 },
+        Stress: { MPa: 1, kPa: 0.001, Pa: 1e-6, bar: 0.1, psi: 0.00689476, ksi: 6.89476 },
+        Energy: { J: 1, kJ: 1000, Wh: 3600, BTU: 1055.06, "ft·lbf": 1.35582 },
+        Power: { W: 1, kW: 1000, hp: 745.7, "BTU/h": 0.29307 },
+        Mass: { kg: 1, g: 0.001, lb: 0.453592 },
+        Torque: { "N·m": 1, "lbf·ft": 1.35582, "lbf·in": 0.112985 },
+      };
+      const UNIT_OPTIONS = Object.entries(UNIT_TABLE).flatMap(([c, m]) =>
+        Object.keys(m).map((u) => [c + "|" + u, u + " (" + c + ")"]),
+      );
+      const BUILT_IN_TOOLS = [
+        {
+          id: "conv",
+          c: "Basics",
+          n: "Unit converter",
+          d: "Convert between common engineering units.",
+          in: [
+            numberInput("v", "Value", "", "any", 1),
+            selectInput("a", "From", UNIT_OPTIONS, "Length|in"),
+            selectInput("b", "To", UNIT_OPTIONS, "Length|mm"),
+          ],
+          run: (v) => {
+            const [ca, ua] = v.a.split("|"),
+              [cb, ub] = v.b.split("|");
+            return ca != cb
+              ? [{ msg: "Pick units from the same category." }]
+              : [result("Result", ub, "any", (v.v * UNIT_TABLE[ca][ua]) / UNIT_TABLE[cb][ub])];
+          },
+        },
+        {
+          id: "sec",
+          c: "Mechanics",
+          n: "Section properties",
+          d: "Area, second moment, section modulus for common cross-sections.",
+          in: [
+            selectInput("s", "Shape", [["r", "Rectangle"], ["c", "Solid circle"], ["h", "Hollow circle"]], "r"),
+            numberInput("b", "Width b / outer dia D", "mm", "L", 40),
+            numberInput("h", "Height h (rectangle)", "mm", "L", 60),
+            numberInput("d", "Inner dia d (hollow)", "mm", "L", 30),
+          ],
+          run: (v) => {
+            const { s, b, h, d } = v;
+            let A, Ix, c, J;
+            if (s == "r") {
+              A = b * h;
+              Ix = (b * h ** 3) / 12;
+              c = h / 2;
+            } else {
+              const di = s == "h" ? d : 0;
+              A = (PI * (b * b - di * di)) / 4;
+              Ix = (PI * (b ** 4 - di ** 4)) / 64;
+              c = b / 2;
+              J = 2 * Ix;
+            }
+            return [
+              result("Area A", "mm²", "A", A),
+              result("Second moment I", "mm⁴", "I", Ix),
+              result("Extreme fibre c", "mm", "L", c),
+              result("Section modulus Z = I/c", "mm³", "Z", Ix / c),
+              ...(J ? [result("Polar moment J", "mm⁴", "I", J)] : []),
+            ];
+          },
+        },
+        {
+          id: "ax",
+          c: "Mechanics",
+          n: "Axial stress & elongation",
+          d: "Direct stress, strain and elongation of a bar under axial load.",
+          in: [
+            numberInput("F", "Axial force F", "N", "F", 10000),
+            numberInput("A", "Area A", "mm²", "A", 200),
+            numberInput("L", "Length L", "mm", "L", 500),
+            numberInput("E", "Young’s modulus E", "GPa", "E", 205),
+          ],
+          run: (v) => {
+            const s = v.F / v.A,
+              e = s / (v.E * 1000);
+            return [
+              result("Stress σ = F/A", "MPa", "S", s),
+              result("Strain ε", "", "n", e),
+              result("Elongation δ = FL/AE", "mm", "L", e * v.L),
+            ];
+          },
+        },
+        {
+          id: "beam",
+          c: "Mechanics",
+          n: "Beam bending",
+          d: "Maximum moment, bending stress and deflection for standard cases.",
+          in: [
+            selectInput("t", "Case", [
+              ["ssc", "Simply supported, centre point load"],
+              ["ssu", "Simply supported, uniform load"],
+              ["cp", "Cantilever, end point load"],
+              ["cu", "Cantilever, uniform load"],
+            ], "ssc"),
+            numberInput("L", "Span L", "mm", "L", 1000),
+            numberInput("P", "Load: P (N) or w (N/mm)", "", "F", 2000),
+            numberInput("E", "Modulus E", "GPa", "E", 205),
+            numberInput("I", "Second moment I", "mm⁴", "I", 200000),
+            numberInput("c", "Extreme fibre c", "mm", "L", 15),
+          ],
+          run: (v) => {
+            const { L, P, I: i, c } = v,
+              e = v.E * 1000,
+              m = {
+                ssc: [(P * L) / 4, (P * L ** 3) / (48 * e * i)],
+                ssu: [(P * L * L) / 8, (5 * P * L ** 4) / (384 * e * i)],
+                cp: [P * L, (P * L ** 3) / (3 * e * i)],
+                cu: [(P * L * L) / 2, (P * L ** 4) / (8 * e * i)],
+              }[v.t];
+            return [
+              result("Max moment", "N·m", "T", m[0] / 1000),
+              result("Max bending stress σ = Mc/I", "MPa", "S", (m[0] * c) / i),
+              result("Max deflection", "mm", "L", m[1]),
+            ];
+          },
+        },
+        {
+          id: "tor",
+          c: "Mechanics",
+          n: "Torsion of solid shaft",
+          d: "Shear stress and angle of twist.",
+          in: [
+            numberInput("T", "Torque T", "N·m", "T", 200),
+            numberInput("d", "Diameter d", "mm", "L", 30),
+            numberInput("L", "Length L", "mm", "L", 600),
+            numberInput("G", "Shear modulus G", "GPa", "E", 79),
+          ],
+          run: (v) => {
+            const J = (PI * v.d ** 4) / 32;
+            return [
+              result("Shear stress τ", "MPa", "S", (16 * v.T * 1000) / (PI * v.d ** 3)),
+              result("Angle of twist", "deg", "deg", (((v.T * 1000 * v.L) / (J * v.G * 1000)) * 180) / PI),
+              result("Polar moment J", "mm⁴", "I", J),
+            ];
+          },
+        },
+        {
+          id: "buck",
+          c: "Mechanics",
+          n: "Euler column buckling",
+          d: "Critical buckling load of a slender column.",
+          in: [
+            numberInput("E", "Modulus E", "GPa", "E", 205),
+            numberInput("I", "Second moment I", "mm⁴", "I", 50000),
+            numberInput("L", "Length L", "mm", "L", 800),
+            selectInput("K", "End condition (K)", [
+              [1, "Pinned–pinned (1.0)"],
+              [0.5, "Fixed–fixed (0.5)"],
+              [0.7, "Fixed–pinned (0.7)"],
+              [2, "Fixed–free (2.0)"],
+            ], 1),
+          ],
+          run: (v) => [
+            result("Critical load Pcr", "N", "F", (PI ** 2 * v.E * 1000 * v.I) / (v.K * v.L) ** 2),
+          ],
+        },
+        {
+          id: "mohr",
+          c: "Stress",
+          n: "Principal & von Mises stress",
+          d: "Plane stress state with factor of safety against yield.",
+          in: [
+            numberInput("x", "σx", "MPa", "S", 100),
+            numberInput("y", "σy", "MPa", "S", -20),
+            numberInput("t", "τxy", "MPa", "S", 40),
+            numberInput("Sy", "Yield strength Sy", "MPa", "S", 350),
+          ],
+          run: (v) => {
+            const a = (v.x + v.y) / 2,
+              r = Math.hypot((v.x - v.y) / 2, v.t),
+              s1 = a + r,
+              s2 = a - r,
+              vm = Math.sqrt(s1 * s1 - s1 * s2 + s2 * s2);
+            return [
+              result("Principal σ1", "MPa", "S", s1),
+              result("Principal σ2", "MPa", "S", s2),
+              result("Max shear τmax", "MPa", "S", r),
+              result("Von Mises σ′", "MPa", "S", vm),
+              result("Factor of safety Sy/σ′", "", "n", v.Sy / vm),
+            ];
+          },
+        },
+        {
+          id: "pv",
+          c: "Stress",
+          n: "Thin-wall pressure vessel",
+          d: "Valid when d/t > 10.",
+          in: [
+            numberInput("p", "Internal pressure p", "MPa", "S", 2),
+            numberInput("d", "Inner diameter d", "mm", "L", 300),
+            numberInput("t", "Wall thickness t", "mm", "L", 5),
+          ],
+          run: (v) => [
+            result("Hoop stress pd/2t", "MPa", "S", (v.p * v.d) / (2 * v.t)),
+            result("Longitudinal / sphere pd/4t", "MPa", "S", (v.p * v.d) / (4 * v.t)),
+          ],
+        },
+        {
+          id: "bolt",
+          c: "Machine elements",
+          n: "Bolt preload & torque",
+          d: "Tensile stress area, stress and tightening torque (T = K·d·F).",
+          in: [
+            numberInput("d", "Nominal diameter d", "mm", "L", 10),
+            numberInput("p", "Thread pitch", "mm", "L", 1.5),
+            numberInput("F", "Preload F", "N", "F", 20000),
+            numberInput("K", "Torque coefficient K", "", "n", 0.2),
+          ],
+          run: (v) => {
+            const At = (PI / 4) * (v.d - 0.9382 * v.p) ** 2;
+            return [
+              result("Tensile stress area At", "mm²", "A", At),
+              result("Bolt stress F/At", "MPa", "S", v.F / At),
+              result("Tightening torque", "N·m", "T", (v.K * v.d * v.F) / 1000),
+            ];
+          },
+        },
+        {
+          id: "spr",
+          c: "Machine elements",
+          n: "Compression spring",
+          d: "Spring rate k = Gd⁴/8D³N and force at deflection.",
+          in: [
+            numberInput("d", "Wire dia d", "mm", "L", 2),
+            numberInput("D", "Mean coil dia D", "mm", "L", 16),
+            numberInput("N", "Active coils", "", "n", 8),
+            numberInput("G", "Shear modulus G", "GPa", "E", 79),
+            numberInput("x", "Deflection x", "mm", "L", 10),
+          ],
+          run: (v) => {
+            const k = (v.G * 1000 * v.d ** 4) / (8 * v.D ** 3 * v.N);
+            return [
+              result("Spring rate k", "N/mm", "ks", k),
+              result("Force F = kx", "N", "F", k * v.x),
+            ];
+          },
+        },
+        {
+          id: "gear",
+          c: "Machine elements",
+          n: "Spur gear pair",
+          d: "Ratio, pitch diameters, centre distance, output speed and torque (ideal).",
+          in: [
+            numberInput("z1", "Pinion teeth", "", "n", 20),
+            numberInput("z2", "Gear teeth", "", "n", 60),
+            numberInput("m", "Module m", "mm", "L", 2),
+            numberInput("n1", "Input speed", "rpm", "N", 1500),
+            numberInput("t1", "Input torque", "N·m", "T", 50),
+          ],
+          run: (v) => {
+            const r = v.z2 / v.z1;
+            return [
+              result("Ratio", "", "n", r),
+              result("Pinion pitch dia", "mm", "L", v.m * v.z1),
+              result("Gear pitch dia", "mm", "L", v.m * v.z2),
+              result("Centre distance", "mm", "L", (v.m * (v.z1 + v.z2)) / 2),
+              result("Output speed", "rpm", "N", v.n1 / r),
+              result("Output torque", "N·m", "T", v.t1 * r),
+            ];
+          },
+        },
+        {
+          id: "pwr",
+          c: "Machine elements",
+          n: "Power, torque & speed",
+          d: "P = T·ω. Choose which to solve for.",
+          in: [
+            selectInput("m", "Solve for", [["p", "Power"], ["t", "Torque"]], "p"),
+            numberInput("T", "Torque (used for power)", "N·m", "T", 100),
+            numberInput("P", "Power (used for torque)", "kW", "Pk", 15),
+            numberInput("N", "Speed N", "rpm", "N", 1500),
+          ],
+          run: (v) => {
+            const w = (v.N * 2 * PI) / 60,
+              P = v.m == "p" ? (v.T * w) / 1000 : v.P,
+              Tq = v.m == "p" ? v.T : (v.P * 1000) / w;
+            return [
+              result("Power", "kW", "Pk", P),
+              result("Torque", "N·m", "T", Tq),
+              result("Angular speed ω", "rad/s", "n", w),
+            ];
+          },
+        },
+        {
+          id: "pipe",
+          c: "Fluids",
+          n: "Pipe flow & pressure drop",
+          d: "Velocity, Reynolds number and Darcy–Weisbach loss (Swamee–Jain). Defaults: water.",
+          in: [
+            numberInput("Q", "Flow rate", "L/min", "Q", 100),
+            numberInput("D", "Inner diameter", "mm", "L", 40),
+            numberInput("L", "Pipe length", "m", "Lm", 20),
+            numberInput("r", "Density ρ", "kg/m³", "rho", 998),
+            numberInput("u", "Viscosity μ", "mPa·s", "n", 1),
+            numberInput("e", "Roughness ε", "mm", "L", 0.045),
+          ],
+          run: (v) => {
+            const D = v.D / 1e3,
+              V = v.Q / 6e4 / ((PI * D * D) / 4),
+              Re = (v.r * V * D) / (v.u / 1e3),
+              f = Re < 2300 ? 64 / Re : 0.25 / Math.log10(v.e / 1e3 / (3.7 * D) + 5.74 / Re ** 0.9) ** 2;
+            return [
+              result("Velocity", "m/s", "v", V),
+              result("Reynolds number", "", "n", Re),
+              result("Friction factor f", "", "n", f),
+              result("Pressure drop", "kPa", "Pkpa", (((f * v.L) / D) * v.r * V * V) / 2 / 1000),
+            ];
+          },
+        },
+        {
+          id: "cond",
+          c: "Thermal",
+          n: "Conduction through a wall",
+          d: "Steady 1-D heat flow Q = kAΔT/t.",
+          in: [
+            numberInput("k", "Conductivity k", "W/m·K", "kc", 50),
+            numberInput("A", "Area", "m²", "Am", 1),
+            numberInput("t", "Thickness", "mm", "L", 20),
+            numberInput("a", "Hot side", "°C", "C", 200),
+            numberInput("b", "Cold side", "°C", "C", 40),
+          ],
+          run: (v) => {
+            const Q = (v.k * v.A * (v.a - v.b)) / (v.t / 1000);
+            return [
+              result("Heat flow Q", "W", "Pw", Q),
+              result("Thermal resistance", "K/W", "n", v.t / 1000 / (v.k * v.A)),
+            ];
+          },
+        },
+        {
+          id: "exp",
+          c: "Thermal",
+          n: "Thermal expansion & stress",
+          d: "Free expansion and stress if fully constrained.",
+          in: [
+            numberInput("a", "Coefficient α", "µm/m·K", "alpha", 11.7),
+            numberInput("L", "Length L", "mm", "L", 1000),
+            numberInput("dT", "Temperature change", "K", "n", 50),
+            numberInput("E", "Modulus E", "GPa", "E", 205),
+          ],
+          run: (v) => [
+            result("Expansion ΔL", "mm", "L", v.a * 1e-6 * v.L * v.dT),
+            result("Constrained stress EαΔT", "MPa", "S", v.E * 1000 * v.a * 1e-6 * v.dT),
+          ],
+        },
+        {
+          id: "gas",
+          c: "Thermal",
+          n: "Ideal gas law",
+          d: "P = mRT/V for common gases.",
+          in: [
+            selectInput("g", "Gas", [
+              [287, "Air"],
+              [296.8, "Nitrogen"],
+              [259.8, "Oxygen"],
+              [188.9, "Carbon dioxide"],
+              [2077, "Helium"],
+              [4124, "Hydrogen"],
+            ], 287),
+            numberInput("m", "Mass", "kg", "M", 1),
+            numberInput("T", "Temperature", "°C", "C", 25),
+            numberInput("V", "Volume", "m³", "Vm", 0.85),
+          ],
+          run: (v) => [
+            result("Pressure", "kPa", "Pkpa", (v.m * v.g * (v.T + 273.15)) / v.V / 1000),
+            result("Density", "kg/m³", "rho", v.m / v.V),
+          ],
+        },
+        {
+          id: "proc",
+          c: "Thermal",
+          n: "Ideal gas processes",
+          d: "Isothermal, isobaric or reversible adiabatic change of a closed gas system.",
+          in: [
+            selectInput("p", "Process", [["t", "Isothermal"], ["b", "Isobaric"], ["a", "Adiabatic (reversible)"]], "t"),
+            numberInput("P1", "Initial pressure", "kPa", "Pkpa", 100),
+            numberInput("V1", "Initial volume", "m³", "Vm", 1),
+            numberInput("T1", "Initial temperature", "°C", "C", 27),
+            numberInput("V2", "Final volume", "m³", "Vm", 0.5),
+            numberInput("g", "γ = cp/cv", "", "n", 1.4),
+          ],
+          run: (v) => {
+            const { P1, V1, V2, g: y } = v,
+              K = v.T1 + 273.15;
+            let P2, K2, W;
+            if (v.p == "t") {
+              P2 = (P1 * V1) / V2;
+              K2 = K;
+              W = P1 * V1 * Math.log(V2 / V1);
+            } else if (v.p == "b") {
+              P2 = P1;
+              K2 = (K * V2) / V1;
+              W = P1 * (V2 - V1);
+            } else {
+              P2 = P1 * (V1 / V2) ** y;
+              K2 = K * (V1 / V2) ** (y - 1);
+              W = (P1 * V1 - P2 * V2) / (y - 1);
+            }
+            return [
+              result("Final pressure", "kPa", "Pkpa", P2),
+              result("Final temperature", "°C", "C", K2 - 273.15),
+              result("Work done by gas", "kJ", "Qk", W),
+            ];
+          },
+        },
+        {
+          id: "mix",
+          c: "Thermal",
+          n: "Sensible heat & mixing",
+          d: "Q = mcΔT and equilibrium temperature when two bodies are mixed.",
+          in: [
+            numberInput("m1", "Mass 1", "kg", "M", 2),
+            numberInput("c1", "Specific heat c1", "kJ/kg·K", "cp", 0.49),
+            numberInput("T1", "Temperature 1", "°C", "C", 200),
+            numberInput("m2", "Mass 2", "kg", "M", 5),
+            numberInput("c2", "Specific heat c2", "kJ/kg·K", "cp", 4.18),
+            numberInput("T2", "Temperature 2", "°C", "C", 20),
+          ],
+          run: (v) => {
+            const a = v.m1 * v.c1,
+              b = v.m2 * v.c2,
+              Tf = (a * v.T1 + b * v.T2) / (a + b);
+            return [
+              result("Final temperature", "°C", "C", Tf),
+              result("Heat transferred", "kJ", "Qk", a * Math.abs(Tf - v.T1)),
+            ];
+          },
+        },
+        {
+          id: "cvr",
+          c: "Thermal",
+          n: "Convection & radiation",
+          d: "Surface heat loss: Q = hAΔT and Q = εσA(Ts⁴ − Tsurr⁴), with surroundings at ambient.",
+          in: [
+            numberInput("h", "Convection coeff. h", "W/m²·K", "h", 25),
+            numberInput("A", "Area", "m²", "Am", 1),
+            numberInput("Ts", "Surface temp", "°C", "C", 80),
+            numberInput("Ta", "Ambient temp", "°C", "C", 20),
+            numberInput("e", "Emissivity ε", "", "n", 0.9),
+          ],
+          run: (v) => {
+            const q = v.h * v.A * (v.Ts - v.Ta),
+              r = v.e * 5.670374e-8 * v.A * ((v.Ts + 273.15) ** 4 - (v.Ta + 273.15) ** 4);
+            return [
+              result("Convection", "W", "Pw", q),
+              result("Radiation", "W", "Pw", r),
+              result("Total loss", "W", "Pw", q + r),
+              result("Radiation coeff. hr", "W/m²·K", "h", r / (v.A * (v.Ts - v.Ta))),
+            ];
+          },
+        },
+        {
+          id: "eng",
+          c: "Heat engines & refrigerators",
+          n: "Heat engine",
+          d: "Thermal efficiency against the Carnot limit.",
+          in: [
+            numberInput("Th", "Hot reservoir", "°C", "C", 500),
+            numberInput("Tc", "Cold reservoir", "°C", "C", 30),
+            numberInput("Qh", "Heat input rate", "kW", "Pk", 100),
+            numberInput("W", "Work output", "kW", "Pk", 30),
+          ],
+          run: (v) => {
+            const c = 1 - (v.Tc + 273.15) / (v.Th + 273.15),
+              e = v.W / v.Qh;
+            return [
+              result("Carnot efficiency", "", "n", c),
+              result("Actual efficiency", "", "n", e),
+              result("Second-law efficiency", "", "n", e / c),
+              result("Heat rejected", "kW", "Pk", v.Qh - v.W),
+              result("Max work (Carnot)", "kW", "Pk", c * v.Qh),
+            ];
+          },
+        },
+        {
+          id: "fri",
+          c: "Heat engines & refrigerators",
+          n: "Refrigerator / heat pump",
+          d: "COP against the Carnot limit.",
+          in: [
+            numberInput("Tc", "Cold space", "°C", "C", -10),
+            numberInput("Th", "Hot space", "°C", "C", 35),
+            numberInput("Qc", "Cooling load", "kW", "Pk", 5),
+            numberInput("W", "Compressor power", "kW", "Pk", 1.5),
+          ],
+          run: (v) => {
+            const a = v.Tc + 273.15,
+              b = v.Th + 273.15,
+              Qh = v.Qc + v.W;
+            return [
+              result("COP refrigerator", "", "n", v.Qc / v.W),
+              result("Carnot COP refrigerator", "", "n", a / (b - a)),
+              result("Second-law efficiency", "", "n", v.Qc / v.W / (a / (b - a))),
+              result("Heat rejected Qh", "kW", "Pk", Qh),
+              result("COP heat pump", "", "n", Qh / v.W),
+              result("Carnot COP heat pump", "", "n", b / (b - a)),
+            ];
+          },
+        },
+        {
+          id: "cyc",
+          c: "Heat engines & refrigerators",
+          n: "Air-standard cycles",
+          d: "Ideal efficiency of Otto, Diesel and Brayton cycles.",
+          in: [
+            selectInput("c", "Cycle", [["o", "Otto"], ["d", "Diesel"], ["b", "Brayton (gas turbine)"]], "o"),
+            numberInput("r", "Compression ratio (Otto, Diesel) or pressure ratio (Brayton)", "", "n", 9),
+            numberInput("rc", "Cutoff ratio (Diesel)", "", "n", 2),
+            numberInput("g", "γ", "", "n", 1.4),
+          ],
+          run: (v) => {
+            const { r, rc, g } = v;
+            return [
+              result("Thermal efficiency", "", "n",
+                v.c == "o" ? 1 - 1 / r ** (g - 1) : v.c == "d" ? 1 - (rc ** g - 1) / (r ** (g - 1) * g * (rc - 1)) : 1 - 1 / r ** ((g - 1) / g)
+              ),
+            ];
+          },
+        },
+        {
+          id: "worm",
+          c: "Gears",
+          n: "Worm gear",
+          d: "Ratio, lead angle, efficiency, self-locking and output torque.",
+          in: [
+            numberInput("z1", "Worm starts", "", "n", 2),
+            numberInput("z2", "Wheel teeth", "", "n", 40),
+            numberInput("m", "Axial module", "mm", "L", 4),
+            numberInput("dw", "Worm pitch dia", "mm", "L", 40),
+            numberInput("n1", "Worm speed", "rpm", "N", 1450),
+            numberInput("t1", "Worm torque", "N·m", "T", 10),
+            numberInput("mu", "Friction coeff. μ", "", "n", 0.05),
+            numberInput("pa", "Pressure angle", "deg", "deg", 20),
+          ],
+          run: (v) => {
+            const r = v.z2 / v.z1,
+              l = Math.atan((v.z1 * v.m) / v.dw),
+              c = Math.cos(v.pa * DEG_TO_RAD),
+              e = (c - v.mu * Math.tan(l)) / (c + v.mu / Math.tan(l));
+            return [
+              result("Ratio", "", "n", r),
+              result("Lead angle", "deg", "deg", l / DEG_TO_RAD),
+              result("Efficiency", "", "n", e),
+              result("Self-locking? (1 = yes)", "", "n", +(Math.tan(l) <= v.mu / c)),
+              result("Wheel pitch dia", "mm", "L", v.m * v.z2),
+              result("Centre distance", "mm", "L", (v.dw + v.m * v.z2) / 2),
+              result("Output speed", "rpm", "N", v.n1 / r),
+              result("Output torque", "N·m", "T", v.t1 * r * e),
+            ];
+          },
+        },
+        {
+          id: "bevel",
+          c: "Gears",
+          n: "Bevel gear pair",
+          d: "Pitch cone angles, pitch diameters and cone distance (module at large end).",
+          in: [
+            numberInput("z1", "Pinion teeth", "", "n", 18),
+            numberInput("z2", "Gear teeth", "", "n", 36),
+            numberInput("m", "Module (large end)", "mm", "L", 3),
+            numberInput("s", "Shaft angle Σ", "deg", "deg", 90),
+            numberInput("n1", "Input speed", "rpm", "N", 1200),
+            numberInput("t1", "Input torque", "N·m", "T", 30),
+            numberInput("e", "Efficiency", "", "n", 0.98),
+          ],
+          run: (v) => {
+            const r = v.z2 / v.z1,
+              S = v.s * DEG_TO_RAD,
+              d1 = Math.atan2(Math.sin(S), r + Math.cos(S));
+            return [
+              result("Ratio", "", "n", r),
+              result("Pinion cone angle δ1", "deg", "deg", d1 / DEG_TO_RAD),
+              result("Gear cone angle δ2", "deg", "deg", (S - d1) / DEG_TO_RAD),
+              result("Pinion pitch dia", "mm", "L", v.m * v.z1),
+              result("Gear pitch dia", "mm", "L", v.m * v.z2),
+              result("Cone distance", "mm", "L", (v.m * v.z1) / (2 * Math.sin(d1))),
+              result("Output speed", "rpm", "N", v.n1 / r),
+              result("Output torque", "N·m", "T", v.t1 * r * v.e),
+            ];
+          },
+        },
+        {
+          id: "epi",
+          c: "Gears",
+          n: "Planetary gearset",
+          d: "Simple planetary: ratio, output speed and torque for each fixed/input/output arrangement.",
+          in: [
+            selectInput("m", "Arrangement", [
+              ["a", "Ring fixed · Sun in · Carrier out (reduction)"],
+              ["b", "Sun fixed · Ring in · Carrier out"],
+              ["c", "Carrier fixed · Sun in · Ring out (reverse)"],
+              ["d", "Ring fixed · Carrier in · Sun out (overdrive)"],
+            ], "a"),
+            numberInput("zs", "Sun teeth", "", "n", 20),
+            numberInput("zr", "Ring teeth", "", "n", 60),
+            numberInput("np", "Number of planets", "", "n", 3),
+            numberInput("n1", "Input speed", "rpm", "N", 1500),
+            numberInput("t1", "Input torque", "N·m", "T", 20),
+            numberInput("e", "Efficiency", "", "n", 0.97),
+          ],
+          run: (v) => {
+            const q = v.zr / v.zs,
+              r = { a: 1 + q, b: 1 + 1 / q, c: -q, d: 1 / (1 + q) }[v.m];
+            return [
+              result("Speed ratio (in/out)", "", "n", r),
+              result("Planet teeth", "", "n", (v.zr - v.zs) / 2),
+              result("Equal spacing OK? (1 = yes)", "", "n", +(((v.zs + v.zr) / v.np) % 1 == 0)),
+              result("Output speed", "rpm", "N", v.n1 / r),
+              result("Output torque", "N·m", "T", v.t1 * Math.abs(r) * v.e),
+            ];
+          },
+        },
+        {
+          id: "belt",
+          c: "Belts & chains",
+          n: "Belt drive (open)",
+          d: "Geometry, belt speed, wrap angle and tensions with friction. D1 is the driver.",
+          in: [
+            numberInput("D1", "Driver pulley dia", "mm", "L", 100),
+            numberInput("D2", "Driven pulley dia", "mm", "L", 250),
+            numberInput("C", "Centre distance", "mm", "L", 500),
+            numberInput("n1", "Driver speed", "rpm", "N", 1450),
+            numberInput("P", "Power", "kW", "Pk", 3),
+            numberInput("mu", "Friction coeff. μ", "", "n", 0.3),
+          ],
+          run: (v) => {
+            const { D1, D2, C } = v,
+              th = PI - 2 * Math.asin(Math.abs(D2 - D1) / (2 * C)),
+              b = (PI * D1 * v.n1) / 6e4,
+              Fe = (v.P * 1000) / b,
+              x = Math.exp(v.mu * th),
+              F1 = (Fe * x) / (x - 1);
+            return [
+              result("Speed ratio", "", "n", D2 / D1),
+              result("Driven speed", "rpm", "N", (v.n1 * D1) / D2),
+              result("Belt speed", "m/s", "v", b),
+              result("Wrap on small pulley", "deg", "deg", th / DEG_TO_RAD),
+              result("Belt length", "mm", "L", 2 * C + (PI * (D1 + D2)) / 2 + (D2 - D1) ** 2 / (4 * C)),
+              result("Effective tension", "N", "F", Fe),
+              result("Tight side F1", "N", "F", F1),
+              result("Slack side F2", "N", "F", F1 - Fe),
+              result("Driven torque", "N·m", "T", (Fe * D2) / 2000),
+            ];
+          },
+        },
+        {
+          id: "chain",
+          c: "Belts & chains",
+          n: "Roller chain drive",
+          d: "Sprocket sizes, chain speed, tension and number of links.",
+          in: [
+            selectInput("p", "Chain (pitch)", [
+              [9.525, "ANSI 35 – 9.525 mm"],
+              [12.7, "ANSI 40 – 12.7 mm"],
+              [15.875, "ANSI 50 – 15.875 mm"],
+              [19.05, "ANSI 60 – 19.05 mm"],
+              [25.4, "ANSI 80 – 25.4 mm"],
+            ], 12.7),
+            numberInput("z1", "Driver sprocket teeth", "", "n", 17),
+            numberInput("z2", "Driven sprocket teeth", "", "n", 45),
+            numberInput("C", "Centre distance", "mm", "L", 500),
+            numberInput("n1", "Driver speed", "rpm", "N", 600),
+            numberInput("P", "Power", "kW", "Pk", 3),
+          ],
+          run: (v) => {
+            const p = +v.p,
+              { z1, z2, C } = v,
+              s = (p * z1 * v.n1) / 6e4,
+              Lp = (2 * C) / p + (z1 + z2) / 2 + (((z2 - z1) / (2 * PI)) ** 2 * p) / C;
+            return [
+              result("Speed ratio", "", "n", z2 / z1),
+              result("Driven speed", "rpm", "N", (v.n1 * z1) / z2),
+              result("Driver pitch dia", "mm", "L", p / Math.sin(PI / z1)),
+              result("Driven pitch dia", "mm", "L", p / Math.sin(PI / z2)),
+              result("Chain speed", "m/s", "v", s),
+              result("Chain tension", "N", "F", (v.P * 1000) / s),
+              result("Links (rounded up to even)", "", "n", 2 * Math.ceil(Lp / 2)),
+            ];
+          },
+        },
+        {
+          id: "mot",
+          c: "Power",
+          n: "Three-phase motor",
+          d: "Electrical input, shaft power and shaft torque.",
+          in: [
+            numberInput("V", "Line voltage", "V", "V", 400),
+            numberInput("A", "Line current", "A", "Amp", 20),
+            numberInput("pf", "Power factor", "", "n", 0.85),
+            numberInput("e", "Motor efficiency", "", "n", 0.92),
+            numberInput("N", "Shaft speed", "rpm", "N", 1450),
+          ],
+          run: (v) => {
+            const pi = (Math.sqrt(3) * v.V * v.A * v.pf) / 1000,
+              ps = pi * v.e;
+            return [
+              result("Electrical input", "kW", "Pk", pi),
+              result("Shaft power", "kW", "Pk", ps),
+              result("Shaft power", "hp", "n", (ps * 1000) / 745.7),
+              result("Shaft torque", "N·m", "T", (ps * 1000) / ((v.N * 2 * PI) / 60)),
+              result("Losses", "kW", "Pk", pi - ps),
+            ];
+          },
+        },
+        {
+          id: "pump",
+          c: "Power",
+          n: "Pump / hydraulic power",
+          d: "Hydraulic and shaft power from flow and pressure rise.",
+          in: [
+            numberInput("Q", "Flow rate", "L/min", "Q", 100),
+            numberInput("dp", "Pressure rise", "kPa", "Pkpa", 500),
+            numberInput("e", "Pump efficiency", "", "n", 0.7),
+            numberInput("r", "Density ρ", "kg/m³", "rho", 998),
+          ],
+          run: (v) => {
+            const h = (v.Q / 6e4) * v.dp;
+            return [
+              result("Hydraulic power", "kW", "Pk", h),
+              result("Shaft power", "kW", "Pk", h / v.e),
+              result("Head", "m", "Lm", (v.dp * 1000) / (v.r * 9.81)),
+            ];
+          },
+        },
+        {
+          id: "drv",
+          c: "Power",
+          n: "Drivetrain efficiency",
+          d: "Multiply stage efficiencies (use 1 for unused stages) to track power losses.",
+          in: [
+            numberInput("P", "Input power", "kW", "Pk", 10),
+            numberInput("a", "Stage 1 efficiency", "", "n", 0.92),
+            numberInput("b", "Stage 2 efficiency", "", "n", 0.97),
+            numberInput("c", "Stage 3 efficiency", "", "n", 0.95),
+            numberInput("d", "Stage 4 efficiency", "", "n", 1),
+          ],
+          run: (v) => {
+            const e = v.a * v.b * v.c * v.d;
+            return [
+              result("Overall efficiency", "", "n", e),
+              result("Output power", "kW", "Pk", v.P * e),
+              result("Total losses", "kW", "Pk", v.P * (1 - e)),
+            ];
+          },
+        },
+        {
+          id: "lin",
+          c: "Power",
+          n: "Work, energy & power",
+          d: "Linear power P = F·v, kinetic energy and energy used over time.",
+          in: [
+            numberInput("F", "Force", "N", "F", 500),
+            numberInput("v", "Speed", "m/s", "v", 2),
+            numberInput("m", "Mass", "kg", "M", 100),
+            numberInput("t", "Run time", "h", "n", 8),
+          ],
+          run: (v) => {
+            const P = v.F * v.v;
+            return [
+              result("Power", "W", "Pw", P),
+              result("Power", "kW", "Pk", P / 1000),
+              result("Kinetic energy", "J", "n", 0.5 * v.m * v.v * v.v),
+              result("Energy over run time", "kWh", "n", (P / 1000) * v.t),
+            ];
+          },
+        },
+      ];
+      
+      const REFERENCE_TABLES = [
+        {
+          id: "mat",
+          c: "Reference",
+          n: "Material properties",
+          d: "Typical room-temperature values. Click any value to pin it to the chain bin.",
+          h: ["Material", "E (GPa)", "Sy (MPa)", "Su (MPa)", "ρ (kg/m³)", "α (µm/m·K)"],
+          k: [0, "E", "S", "S", "rho", "alpha"],
+          r: [
+            ["AISI 1018 CD steel", 205, 370, 440, 7870, 11.7],
+            ["AISI 1045 HR steel", 205, 310, 565, 7850, 11.5],
+            ["AISI 4140 Q&T steel", 205, 655, 1020, 7850, 12.3],
+            ["Stainless 304", 193, 215, 505, 8000, 17.3],
+            ["Aluminium 6061-T6", 68.9, 276, 310, 2700, 23.6],
+            ["Aluminium 7075-T6", 71.7, 503, 572, 2810, 23.6],
+            ["Titanium Ti-6Al-4V", 114, 880, 950, 4430, 8.6],
+            ["Gray cast iron ASTM 40", 110, null, 293, 7200, 10.5],
+            ["Copper C11000 (annealed)", 117, 69, 220, 8940, 17],
+          ],
+        },
+        {
+          id: "thr",
+          c: "Reference",
+          n: "Metric coarse threads",
+          d: "ISO coarse series. Click a value to pin it.",
+          h: ["Size", "Major d (mm)", "Pitch (mm)", "Tensile area At (mm²)"],
+          k: [0, "L", "L", "A"],
+          r: [
+            ["M3", 3, 0.5, 5.03],
+            ["M4", 4, 0.7, 8.78],
+            ["M5", 5, 0.8, 14.2],
+            ["M6", 6, 1, 20.1],
+            ["M8", 8, 1.25, 36.6],
+            ["M10", 10, 1.5, 58],
+            ["M12", 12, 1.75, 84.3],
+            ["M14", 14, 2, 115],
+            ["M16", 16, 2, 157],
+            ["M20", 20, 2.5, 245],
+            ["M24", 24, 3, 353],
+          ],
+        },
+      ];
+      const SOURCE_MANAGER_ENTRY = {
+        id: "src",
+        c: "More / Custom",
+        n: "Manage sources",
+        d: "Add or remove custom calculation sources.",
+        in: [],
+        manage: 1,
+      };
+      let allTools = [...BUILT_IN_TOOLS, ...REFERENCE_TABLES, SOURCE_MANAGER_ENTRY];
+      
+      let savedInputs = {},
+        chainBin = [],
+        currentTool,
+        nextBinId = 0;
+      const qs = (s) => document.querySelector(s),
+        formatNumber = (value) =>
+          !isFinite(value)
+            ? "—"
+            : Math.abs(value) >= 1e7 || (value !== 0 && Math.abs(value) < 1e-3)
+              ? value.toExponential(3)
+              : (+value.toPrecision(6)).toLocaleString("en-US", {
+                  maximumFractionDigits: 8,
+                });
+                
+      function announce(message) {
+        const el = qs("#st");
+        el.textContent = message;
+        el.classList.add("on");
+        clearTimeout(announce.t);
+        announce.t = setTimeout(() => el.classList.remove("on"), 2200);
+      }
+      
+      function renderNav(query = "") {
+        let html = "",
+          category = "";
+        allTools
+          .filter((t) => (t.n + t.c).toLowerCase().includes(query.toLowerCase()))
+          .forEach((t) => {
+            if (t.c != category) {
+              category = t.c;
+              html += `<h3>${category}</h3>`;
+            }
+            html += `<a href="#${t.id}" ${currentTool && currentTool.id == t.id ? 'aria-current="page"' : ""}>${t.n}</a>`;
+          });
+        qs("#nav").innerHTML = html || '<p class="p">No match.</p>';
+      }
+      
+      const kindsCompatible = (inputDef, outputKind) =>
+        inputDef.kind &&
+        outputKind &&
+        (inputDef.kind == outputKind || inputDef.kind == "any" || outputKind == "any");
+      
+      const escapeCsv = (val) => {
+        if (val === null || val === undefined) return "";
+        const str = String(val);
+        if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+          return '"' + str.replace(/"/g, '""') + '"';
+        }
+        return str;
+      };
+      
+      function downloadCsv(filename, headers, rows) {
+        let csvContent = headers.map(escapeCsv).join(",") + "\n";
+        rows.forEach(row => {
+          csvContent += row.map(escapeCsv).join(",") + "\n";
+        });
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        announce("Downloaded " + filename);
+      }
+      
+      function referenceTableHtml(tool) {
+        const head = `<th style="width: 24px; padding: 6px;"><input type="checkbox" id="sel-all-ref" title="Select all rows"></th>` +
+          tool.h.map((heading, i) =>
+            `<th scope="col">${heading}${tool.k[i] ? `<br><button data-refcol="${i}" title="Pin values as a single list">＋ list</button>` : ""}</th>`
+          ).join("");
+          
+        const body = tool.r.map((row, rowIndex) => {
+          const cells = `<td><input type="checkbox" class="row-sel" value="${rowIndex}" title="Select this row"></td>` +
+            row.map((cell, colIndex) => {
+              if (colIndex == 0) return `<th scope="row">${cell}</th>`;
+              if (cell == null) return "<td>—</td>";
+              if (typeof cell !== "number") return `<td>${cell}</td>`;
+              return `<td><button data-cell="${rowIndex},${colIndex}" title="Pin to bin">${cell}</button></td>`;
+            }).join("");
+          return `<tr>${cells}</tr>`;
+        }).join("");
+        
+        return `<div class="table-header-bar">
+            <span></span>
+            <button data-csv="ref" class="btn-small">⬇ Download CSV</button>
+          </div>
+          <div class="tw"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+      }
+
+      function inputFieldHtml(tool, input) {
+        const current = (savedInputs[tool.id] || {})[input.k] ?? input.v;
+        const labelHtml = `<label for="i_${input.k}">${input.l} ${input.u ? `<small>(${input.u})</small>` : ""}</label>`;
+        let controlHtml;
+        if (input.o) {
+          const options = input.o
+            .map((o) => `<option value="${escapeHtml(o[0])}" ${o[0] == current ? "selected" : ""}>${o[1]}</option>`)
+            .join("");
+          controlHtml = `<select id="i_${input.k}" data-k="${input.k}">${options}</select>`;
+        } else {
+          controlHtml =
+            `<div class="row"><input id="i_${input.k}" data-k="${input.k}" type="text" autocomplete="off" spellcheck="false" value="${escapeHtml(current)}">` +
+            `<select data-pick="${input.k}" aria-label="Insert ${input.l} from bin"></select></div>`;
+        }
+        return `<div class="f">${labelHtml}${controlHtml}</div>`;
+      }
+
+      function showTool(id) {
+        currentTool = allTools.find((t) => t.id == id) || BUILT_IN_TOOLS[0];
+        renderNav(qs("#q").value);
+        const mainEl = qs("#main");
+        let html = `<h2>${currentTool.n}</h2><p class="p">${currentTool.d}</p>`;
+        
+        if (currentTool.manage) {
+          mainEl.innerHTML = html;
+          renderSourceManager();
+          document.title = "Custom sources – MechKit";
+          return;
+        }
+        
+        if (currentTool.h) {
+          html += referenceTableHtml(currentTool);
+        } else {
+          html +=
+            '<div class="grid">' +
+            currentTool.in.map((input) => inputFieldHtml(currentTool, input)).join("") +
+            '</div><p class="note">Any numeric field also takes a list (<code>10, 20, 30</code>) or a range (<code>0:10:100</code> = start:step:end, or <code>1:5</code> = start:end). Results then become a table you can pin from.</p><div class="res" id="out" aria-live="polite"></div>';
+        }
+        mainEl.innerHTML = html;
+        document.title = currentTool.n + " – MechKit";
+        if (currentTool.h) return;
+        refreshBinPickers();
+        recalculate();
+      }
+      
+      function readInputs() {
+        const raw = {},
+          specs = {};
+        for (const inp of currentTool.in) {
+          const e = qs("#i_" + inp.k);
+          if (!e) continue;
+          raw[inp.k] = e.value;
+          if (!inp.o) specs[inp.k] = parseValueSpec(e.value);
+        }
+        return { raw, specs };
+      }
+      
+      function rangeValues(start, step, end) {
+        if (!isFinite(start) || !isFinite(step) || !isFinite(end) || step === 0) return null;
+        if ((end - start) * step < 0) return null;
+        const count = Math.floor((end - start) / step + 1e-9) + 1;
+        if (count < 1 || count > MAX_ROWS) return null;
+        const out = [];
+        for (let i = 0; i < count; i++) out.push(+(start + i * step).toPrecision(12));
+        return out;
+      }
+      
+      function parseValueSpec(text) {
+        const raw = String(text == null ? "" : text).trim();
+        if (raw === "") return { v: [NaN], err: null };
+        let chunks = raw.split(/[,;]+/).map((s) => s.trim()).filter(Boolean);
+        if (chunks.length == 1 && !chunks[0].includes(":")) {
+          const spaced = chunks[0].split(/\s+/).filter(Boolean);
+          if (spaced.length > 1) chunks = spaced;
+        }
+        const v = [];
+        for (const chunk of chunks) {
+          if (chunk.includes(":")) {
+            const parts = chunk.split(":").map((s) => s.trim());
+            let start, step, end;
+            if (parts.length == 2) {
+              start = +parts[0];
+              step = 1;
+              end = +parts[1];
+            } else if (parts.length == 3) {
+              start = +parts[0];
+              step = +parts[1];
+              end = +parts[2];
+            } else {
+              return { v: [], err: `Use start:end or start:step:end, not “${chunk}”.` };
+            }
+            const r = rangeValues(start, step, end);
+            if (!r)
+              return {
+                v: [],
+                err: `“${chunk}” is not a usable range – check the step direction and size.`,
+              };
+            v.push(...r);
+          } else {
+            const n = Number(chunk);
+            if (!isFinite(n)) return { v: [], err: `“${chunk}” is not a number.` };
+            v.push(n);
+          }
+        }
+        return { v, err: null };
+      }
+      
+      let currentResults = [],
+        tableState = null;
+      const MAX_ROWS = 250,
+        MAX_BULK_PIN = 200;
+      const labelFor = (k) => {
+        const d = currentTool.in.find((x) => x.k === k);
+        return d ? d.l : k;
+      };
+      
+      function recalculate() {
+        const { raw, specs } = readInputs();
+        savedInputs[currentTool.id] = Object.assign({}, savedInputs[currentTool.id] || {}, raw);
+        const resultsEl = qs("#out");
+        tableState = null;
+        resultsEl.setAttribute("aria-live", "polite");
+        for (const [k, s] of Object.entries(specs)) {
+          if (s.err) {
+            resultsEl.innerHTML = `<p class="err">${escapeHtml(labelFor(k))}: ${escapeHtml(s.err)}</p>`;
+            currentResults = [];
+            return;
+          }
+          if (s.v.some((x) => x !== x)) {
+            resultsEl.innerHTML = '<p class="p">Enter every input to see results.</p>';
+            currentResults = [];
+            return;
+          }
+        }
+        const multiKeys = currentTool.in
+          .filter((i) => !i.o && specs[i.k] && specs[i.k].v.length > 1)
+          .map((i) => i.k);
+        let total = 1;
+        for (const k of multiKeys) total *= specs[k].v.length;
+        if (total > MAX_ROWS) {
+          resultsEl.innerHTML = `<p class="err">That sweep would produce ${total.toLocaleString()} rows. Keep it to ${MAX_ROWS} or fewer – shorten the range or use a bigger step.</p>`;
+          currentResults = [];
+          return;
+        }
+        const rows = [];
+        for (let n = 0; n < total; n++) {
+          const scope = {};
+          let rem = n;
+          for (let j = multiKeys.length - 1; j >= 0; j--) {
+            const k = multiKeys[j],
+              len = specs[k].v.length;
+            scope[k] = specs[k].v[rem % len];
+            rem = Math.floor(rem / len);
+          }
+          for (const inp of currentTool.in) {
+            if (inp.o) scope[inp.k] = raw[inp.k];
+            else if (!(inp.k in scope)) scope[inp.k] = specs[inp.k].v[0];
+          }
+          rows.push({ scope, results: currentTool.run(scope) });
+        }
+        if (rows[0].results.length == 1 && rows[0].results[0].msg) {
+          resultsEl.innerHTML = `<p>${rows[0].results[0].msg}</p>`;
+          currentResults = [];
+          return;
+        }
+        if (!multiKeys.length) {
+          currentResults = rows[0].results;
+          resultsEl.innerHTML = singleResultsHtml(currentResults);
+          return;
+        }
+        renderResultTable(rows, multiKeys);
+      }
+      
+      function singleResultsHtml(list) {
+        return (
+          "<h3>Results</h3>" +
+          list
+            .map((o, n) => {
+              if (o.msg) return `<p>${o.msg}</p>`;
+              const tg = allTools
+                .filter((t) => t.in && t.id != currentTool.id)
+                .map((t) => ({
+                  t,
+                  l: t.in.filter((i) => kindsCompatible(i, o.kind)),
+                }))
+                .filter((x) => x.l.length);
+              return `<div class="o"><span>${o.l}</span><b>${formatNumber(o.val)} <small>${o.u || ""}</small></b><div class="a"><button data-pin="${n}">＋ Pin to bin</button><select data-send="${n}" aria-label="Send ${o.l} to another tool"><option value="">→ Send to tool…</option>${tg.map((x) => `<optgroup label="${x.t.n}">${x.l.map((i) => `<option value="${x.t.id}|${i.k}">${i.l}</option>`).join("")}</optgroup>`).join("")}</select></div></div>`;
+            })
+            .join("") +
+          '<p class="note">Check units: lengths mm, forces N, stresses MPa unless noted. Results are for learning and quick estimates – verify against codes and standards.</p>'
+        );
+      }
+      
+      function renderResultTable(rows, multiKeys) {
+        const resCols = rows[0].results.map((o, i) => ({
+          type: "res",
+          idx: i,
+          label: o.l,
+          unit: o.u,
+          kind: o.kind || "any",
+        }));
+        const inCols = multiKeys.map((k) => {
+          const d = currentTool.in.find((x) => x.k === k);
+          return { type: "in", k, label: d.l, unit: d.u, kind: d.kind || "any" };
+        });
+        const cols = [...inCols, ...resCols];
+        tableState = { cols, rows };
+        
+        const head = `<th style="width: 24px; padding: 6px;"><input type="checkbox" id="sel-all" title="Select all rows"></th>` +
+          cols.map((c, i) =>
+            `<th scope="col">${c.label}${c.unit ? ` <small>${c.unit}</small>` : ""}<br><button data-tcol="${i}" title="Pin values as a single list">＋ list</button></th>`
+          ).join("");
+          
+        const body = rows.map((row, r) =>
+          `<tr><td><input type="checkbox" class="row-sel" value="${r}" title="Select this row"></td>` +
+          cols.map((c, i) => {
+            const val = c.type === "in" ? row.scope[c.k] : row.results[c.idx].val;
+            return `<td><button data-tcell="${r},${i}" title="Pin to bin">${formatNumber(val)}</button></td>`;
+          }).join("") + "</tr>"
+        ).join("");
+        
+        const resultsEl = qs("#out");
+        resultsEl.setAttribute("aria-live", "off");
+        resultsEl.innerHTML =
+          `<div class="table-header-bar">
+            <h3 style="margin:0">Results <small>(${rows.length} row${rows.length == 1 ? "" : "s"})</small></h3>
+            <button data-csv="calc" class="btn-small">⬇ Download CSV</button>
+          </div>` +
+          `<div class="tw"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>` +
+          '<p class="note">Every cell is a button – click it to pin that single value to the chain bin. Select specific rows with the checkboxes, then click “＋ list” in a column header to pin those values as a single list entry. If no rows are selected, the whole column is pinned as a list.</p>';
+        currentResults = rows[0].results;
+      }
+      
+      function refreshBinPickers() {
+        document.querySelectorAll("[data-pick]").forEach((s) => {
+          const i = currentTool.in.find((x) => x.k == s.dataset.pick),
+            c = chainBin.filter((b) => kindsCompatible(i, b.kind));
+          s.innerHTML =
+            '<option value="">↤</option>' +
+            c
+              .map((b) => {
+                const displayVal = Array.isArray(b.val)
+                  ? b.val.slice(0, 3).join(", ") + (b.val.length > 3 ? "…" : "")
+                  : formatNumber(b.val);
+                return `<option value="${b.id}">${b.l}: ${displayVal} ${b.u || ""}</option>`;
+              })
+              .join("");
+          s.disabled = !c.length;
+          s.title = c.length ? "Insert value from bin" : "No compatible values in bin";
+        });
+      }
+      
+      function renderBin() {
+        qs("#binl").innerHTML =
+          `<h2 style="font-size:1.05rem">Chain bin</h2><p class="p" style="margin:0"><small>Pin results here or add your own below, then insert them into any compatible input with the ↤ menu.</small></p><ul>${chainBin.map((b) => {
+            const displayVal = Array.isArray(b.val)
+              ? `<b>[${b.val.length} vals]</b> ${b.val.slice(0, 3).join(", ")}${b.val.length > 3 ? "…" : ""}`
+              : `<b>${formatNumber(b.val)}</b> ${b.u || ""}`;
+            return `<li><span>${displayVal}<small>${b.l}</small></span><button data-del="${b.id}" aria-label="Remove ${b.l}">✕</button></li>`;
+          }).join("") || "<li><small>Empty</small></li>"}</ul>${chainBin.length ? "<button data-clr>Clear all</button>" : ""}`;
+        if (currentTool && currentTool.in) refreshBinPickers();
+      }
+      
+      function pinToBin(label, val, kind, unit, silent) {
+        chainBin.unshift({
+          id: ++nextBinId,
+          l: label,
+          val,
+          kind,
+          u: unit,
+        });
+        if (silent) return;
+        renderBin();
+        announce("Pinned: " + label);
+      }
+      
+      document.addEventListener("change", (e) => {
+        if (e.target.id === "sel-all" || e.target.id === "sel-all-ref") {
+          const checked = e.target.checked;
+          const table = e.target.closest("table");
+          table.querySelectorAll(".row-sel").forEach(cb => cb.checked = checked);
+        }
+      });
+      
+      document.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        const d = b.dataset;
+        
+        if (d.csv) {
+          if (d.csv === "calc") {
+            const headers = tableState.cols.map(c => c.label + (c.unit ? ` (${c.unit})` : ""));
+            const rows = tableState.rows.map(r =>
+              tableState.cols.map(c => c.type === "in" ? r.scope[c.k] : r.results[c.idx].val)
+            );
+            downloadCsv(`${currentTool.n.replace(/\s+/g, "_")}_Results.csv`, headers, rows);
+          } else if (d.csv === "ref") {
+            const headers = currentTool.h;
+            const rows = currentTool.r.map(row =>
+              row.map(cell => cell === null ? "" : cell)
+            );
+            downloadCsv(`${currentTool.n.replace(/\s+/g, "_")}.csv`, headers, rows);
+          }
+        } else if (d.pin !== undefined) {
+          const o = currentResults[d.pin];
+          pinToBin(currentTool.n + " – " + o.l, o.val, o.kind, o.u);
+        } else if (d.tcell !== undefined) {
+          const [r, c] = d.tcell.split(",").map(Number),
+            col = tableState.cols[c],
+            row = tableState.rows[r],
+            val = col.type === "in" ? row.scope[col.k] : row.results[col.idx].val;
+          pinToBin(currentTool.n + " – " + col.label, val, col.kind, col.unit);
+        } else if (d.tcol !== undefined) {
+          const col = tableState.cols[+d.tcol];
+          const checkedBoxes = Array.from(document.querySelectorAll(".row-sel:checked"));
+          const rowsToUse = checkedBoxes.length ? checkedBoxes.map(cb => tableState.rows[+cb.value]) : tableState.rows;
+          const vals = rowsToUse.map(row => col.type === "in" ? row.scope[col.k] : row.results[col.idx].val);
+          pinToBin(`${currentTool.n} – ${col.label} (List)`, vals, col.kind, col.unit);
+        } else if (d.refcol !== undefined) {
+          const colIndex = +d.refcol;
+          if (!currentTool.k[colIndex]) return;
+          const checkedBoxes = Array.from(document.querySelectorAll(".row-sel:checked"));
+          const rowsToUse = checkedBoxes.length ? checkedBoxes.map(cb => currentTool.r[+cb.value]) : currentTool.r;
+          
+          const vals = rowsToUse.map(row => row[colIndex]).filter(v => typeof v === 'number');
+          if (vals.length) {
+            const headingName = currentTool.h[colIndex].replace(/ \(.*/, "");
+            const unit = (currentTool.h[colIndex].match(/\((.*)\)/) || [])[1] || "";
+            pinToBin(`${currentTool.n} – ${headingName} (List)`, vals, currentTool.k[colIndex], unit);
+          } else {
+            announce("No numeric values to pin in this column.");
+          }
+        } else if (d.cell) {
+          const [r, c] = d.cell.split(",").map(Number),
+            row = currentTool.r[r];
+          pinToBin(
+            row[0] + " " + currentTool.h[c].replace(/ \(.*/, ""),
+            row[c],
+            currentTool.k[c],
+            (currentTool.h[c].match(/\((.*)\)/) || [])[1],
+          );
+        } else if (d.del) {
+          chainBin = chainBin.filter((x) => x.id != d.del);
+          renderBin();
+        } else if (d.clr !== undefined) {
+          chainBin = [];
+          renderBin();
+        } else if (b.id == "menu") {
+          const n = qs("#nav").classList.toggle("open");
+          b.setAttribute("aria-expanded", n);
+        }
+      });
+      
+      document.addEventListener("input", (e) => {
+        if (e.target.dataset.k) recalculate();
+        if (e.target.id == "q") renderNav(e.target.value);
+      });
+      
+      document.addEventListener("change", (e) => {
+        const t = e.target,
+          d = t.dataset;
+        if (d.k) recalculate();
+        if (d.pick && t.value) {
+          const b = chainBin.find((x) => x.id == t.value);
+          qs("#i_" + d.pick).value = Array.isArray(b.val) ? b.val.join(", ") : +b.val.toPrecision(8);
+          t.selectedIndex = 0;
+          recalculate();
+          announce("Inserted " + (Array.isArray(b.val) ? "a list of " + b.val.length + " values" : formatNumber(b.val)));
+        }
+        if (d.send && t.value) {
+          const o = currentResults[d.send],
+            [id, k] = t.value.split("|");
+          (savedInputs[id] = savedInputs[id] || {})[k] = Array.isArray(o.val) ? o.val.join(", ") : +o.val.toPrecision(8);
+          location.hash = id;
+          announce("Sent " + formatNumber(o.val) + " to " + allTools.find((x) => x.id == id).n);
+        }
+      });
+      
+      addEventListener("hashchange", () => {
+        showTool(location.hash.slice(1));
+        qs("#nav").classList.remove("open");
+      });
+      
+      const BIN_UNIT_CHOICES = [
+        ["mm", "L", "length"], ["m", "Lm", "length"], ["N", "F", "force"],
+        ["MPa", "S", "stress / pressure"], ["N·m", "T", "torque / moment"], ["GPa", "E", "modulus"],
+        ["mm²", "A", "area"], ["mm⁴", "I", "second moment"], ["mm³", "Z", "section modulus"],
+        ["rpm", "N", "speed"], ["kW", "Pk", "power"], ["W", "Pw", "power / heat flow"],
+        ["°C", "C", "temperature"], ["kPa", "Pkpa", "pressure"], ["kJ", "Qk", "energy"],
+        ["kg", "M", "mass"], ["kg/m³", "rho", "density"], ["µm/m·K", "alpha", "expansion coeff."],
+        ["m/s", "v", "velocity"], ["L/min", "Q", "flow rate"], ["deg", "deg", "angle"],
+        ["(none)", "n", "dimensionless"],
+      ];
+      qs("#au").innerHTML =
+        BIN_UNIT_CHOICES.map(([u, k, n]) => `<option value="${k}|${u}">${u} – ${n}</option>`).join(
+          "",
+        ) + '<option value="any|">Other (custom unit)…</option>';
+      qs("#au").onchange = (e) => {
+        qs("#acw").hidden = !e.target.value.startsWith("any|");
+      };
+      qs("#add").onsubmit = (e) => {
+        e.preventDefault();
+        const [k, u] = qs("#au").value.split("|");
+        pinToBin(
+          qs("#ad").value.trim(),
+          +qs("#av").value,
+          k,
+          k == "any" ? qs("#ac").value.trim() : u == "(none)" ? "" : u,
+        );
+        e.target.reset();
+        qs("#acw").hidden = true;
+        qs("#ad").focus();
+      };
+      
+      const FORMULA_FUNCTIONS = {
+        sqrt: Math.sqrt, sin: Math.sin, cos: Math.cos, tan: Math.tan, asin: Math.asin,
+        acos: Math.acos, atan: Math.atan, atan2: Math.atan2, ln: Math.log, log: Math.log10,
+        exp: Math.exp, abs: Math.abs, min: Math.min, max: Math.max, pow: Math.pow,
+        round: Math.round, floor: Math.floor, ceil: Math.ceil, hypot: Math.hypot,
+        rad: (x) => x * DEG_TO_RAD, deg: (x) => x / DEG_TO_RAD,
+      };
+      
+      function compileFormula(src) {
+        src = String(src);
+        const tokens =
+          src.match(
+            /(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?|[A-Za-z_]\w*|'[^']*'|"[^"]*"|\*\*|<=|>=|==|!=|[-+*\/^%(),<>]/gi,
+          ) || [];
+        if (tokens.join("").replace(/\s/g, "").length != src.replace(/\s/g, "").length)
+          throw new Error("Unsupported character in formula: " + src);
+        let i = 0;
+        const peek = () => tokens[i],
+          expect = (t) => {
+            if (tokens[i++] != t) throw new Error("Expected " + t + " in: " + src);
+          };
+        const parseComparison = () => {
+          const a = parseSum(),
+            o = peek();
+          if (["<", ">", "<=", ">=", "==", "!="].includes(o)) {
+            i++;
+            const b = parseSum();
+            return (s) => {
+              const x = a(s), y = b(s);
+              return +(o == "<" ? x < y : o == ">" ? x > y : o == "<=" ? x <= y : o == ">=" ? x >= y : o == "==" ? x == y : x != y);
+            };
+          }
+          return a;
+        };
+        const parseSum = () => {
+          let a = parseProduct();
+          while (peek() == "+" || peek() == "-") {
+            const o = tokens[i++], b = parseProduct(), l = a;
+            a = o == "+" ? (s) => l(s) + b(s) : (s) => l(s) - b(s);
+          }
+          return a;
+        };
+        const parseProduct = () => {
+          let a = parseUnary();
+          while (["*", "/", "%"].includes(peek())) {
+            const o = tokens[i++], b = parseUnary(), l = a;
+            a = o == "*" ? (s) => l(s) * b(s) : o == "/" ? (s) => l(s) / b(s) : (s) => l(s) % b(s);
+          }
+          return a;
+        };
+        const parseUnary = () => {
+          if (peek() == "-") {
+            i++;
+            const a = parseUnary();
+            return (s) => -a(s);
+          }
+          return parsePower();
+        };
+        const parsePower = () => {
+          const a = parsePrimary();
+          if (peek() == "^" || peek() == "**") {
+            i++;
+            const b = parseUnary();
+            return (s) => a(s) ** b(s);
+          }
+          return a;
+        };
+        const parsePrimary = () => {
+          const t = tokens[i++];
+          if (t === undefined) throw new Error("Formula ended early: " + src);
+          if (/^[\d.]/.test(t)) {
+            const n = +t;
+            return () => n;
+          }
+          if (/^['"]/.test(t)) {
+            const q = t.slice(1, -1);
+            return () => q;
+          }
+          if (t == "(") {
+            const a = parseComparison();
+            expect(")");
+            return a;
+          }
+          if (/^[A-Za-z_]/.test(t)) {
+            if (peek() == "(") {
+              i++;
+              const a = [];
+              if (peek() != ")") {
+                do a.push(parseComparison());
+                while (peek() == "," && i++);
+              }
+              expect(")");
+              if (t == "if") return (s) => (a[0](s) ? a[1](s) : a[2](s));
+              if (!Object.hasOwn(FORMULA_FUNCTIONS, t)) throw new Error("Unknown function " + t + "()");
+              const f = FORMULA_FUNCTIONS[t];
+              return (s) => f(...a.map((x) => x(s)));
+            }
+            return (s) => {
+              if (!(t in s)) throw new Error("Unknown variable " + t);
+              return s[t];
+            };
+          }
+          throw new Error("Unexpected " + t + " in: " + src);
+        };
+        const parsedFormula = parseComparison();
+        if (i < tokens.length) throw new Error("Unexpected " + tokens[i] + " in: " + src);
+        return parsedFormula;
+      }
+      
+      function buildCustomTools(sourceId, json) {
+        if (Array.isArray(json)) json = { tools: json };
+        else if (json && !json.tools && !json.tables) json = { tools: [json] };
+        const toolDefs = (json && json.tools) || [];
+        const tableDefs = (json && json.tables) || [];
+        if (!Array.isArray(toolDefs) || !Array.isArray(tableDefs) || toolDefs.length + tableDefs.length == 0)
+          throw new Error("No tools or tables found in JSON");
+        const tools = toolDefs.map((toolDef, index) => {
+          if (!toolDef.name || !Array.isArray(toolDef.inputs) || !Array.isArray(toolDef.outputs) || !toolDef.outputs.length)
+            throw new Error("Tool " + (index + 1) + " needs name, inputs[] and outputs[]");
+          const inputs = toolDef.inputs.map((def) => {
+            if (!/^[A-Za-z_]\w*$/.test(def.key || "")) throw new Error('Bad input key in "' + toolDef.name + '"');
+            return def.options
+              ? selectInput(def.key, escapeHtml(def.label || def.key), def.options.map((o) => (Array.isArray(o) ? [o[0], escapeHtml(o[1])] : [o, escapeHtml(o)])), def.default ?? (Array.isArray(def.options[0]) ? def.options[0][0] : def.options[0]))
+              : numberInput(def.key, escapeHtml(def.label || def.key), escapeHtml(def.unit || ""), def.kind || "any", def.default ?? 0);
+          });
+          const derivedVars = (toolDef.vars || []).map((def) => [def.name, compileFormula(def.formula)]),
+            outputDefs = toolDef.outputs.map((o) => [o, compileFormula(o.formula)]);
+          return {
+            id: "c_" + sourceId + "_" + String(toolDef.id || index).replace(/\W/g, "_"),
+            c: "More / Custom",
+            n: escapeHtml(toolDef.name),
+            d: escapeHtml((toolDef.description || "") + " (Custom source: " + (json.name || "untitled") + ")"),
+            in: inputs,
+            run: (v) => {
+              try {
+                const scope = Object.assign(Object.create(null), { pi: PI, e: Math.E });
+                inputs.forEach((def) => {
+                  scope[def.k] = def.o ? (def.o.find((o) => String(o[0]) == v[def.k]) || [v[def.k]])[0] : v[def.k];
+                });
+                derivedVars.forEach(([k, f]) => (scope[k] = f(scope)));
+                return outputDefs.map(([o, f]) =>
+                  result(escapeHtml(o.label || "Result"), escapeHtml(o.unit || ""), String(o.kind || "any"), f(scope)),
+                );
+              } catch (e) {
+                return [{ msg: "Error: " + e.message }];
+              }
+            },
+          };
+        });
+        const tables = tableDefs.map((def, index) => buildReferenceTable(sourceId, def, index, json.name));
+        return [...tools, ...tables];
+      }
+      
+      const EXAMPLE_SOURCE = {
+        name: "Example pack",
+        tools: [
+          {
+            id: "cyl",
+            name: "Hollow cylinder mass",
+            description: "Volume and mass of a hollow cylinder.",
+            inputs: [
+              { key: "D", label: "Outer dia", unit: "mm", kind: "L", default: 50 },
+              { key: "d", label: "Inner dia", unit: "mm", kind: "L", default: 30 },
+              { key: "L", label: "Length", unit: "mm", kind: "L", default: 100 },
+              { key: "rho", label: "Material", options: [[7850, "Steel"], [2700, "Aluminium"], [8960, "Copper"]], default: 7850 },
+            ],
+            vars: [{ name: "V", formula: "pi/4*(D^2-d^2)*L" }],
+            outputs: [
+              { label: "Volume", unit: "mm³", kind: "any", formula: "V" },
+              { label: "Mass", unit: "kg", kind: "M", formula: "V*1e-9*rho" },
+            ],
+          },
+        ],
+      };
+      
+      let customSources = [];
+      const STORAGE_KEY_SOURCES = "mechkit_src",
+        STORAGE_KEY_REMEMBER = "mechkit_remember",
+        escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => "&#" + c.charCodeAt(0) + ";");
+        
+      const EXAMPLE_CSV = `# name: Steel grades (example)
+# description: Typical room-temperature values
+Grade,E (GPa),Sy (MPa),Su (MPa),Density (kg/m³)
+S275,210,275,430,7850
+S355,210,355,510,7850
+C45,205,490,700,7850
+`;
+      const NUMBER_PATTERN = /^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i;
+      
+      function tableCell(value) {
+        if (value === null || value === undefined) return null;
+        if (typeof value === "number") return isFinite(value) ? value : null;
+        const text = String(value).trim();
+        if (text === "") return null;
+        return NUMBER_PATTERN.test(text) ? Number(text) : escapeHtml(text);
+      }
+      
+      function kindFromHeading(heading) {
+        const unit = ((String(heading).match(/\(([^)]*)\)/) || [])[1] || "").trim();
+        const known = BIN_UNIT_CHOICES.find((choice) => choice[0] == unit);
+        return known ? known[1] : "any";
+      }
+      
+      function buildReferenceTable(sourceId, def, index, sourceName) {
+        if (!def || !def.name || !Array.isArray(def.headers) || def.headers.length < 2 || !Array.isArray(def.rows))
+          throw new Error("Table " + (index + 1) + " needs name, headers[] (two or more) and rows[]");
+        return {
+          id: "c_" + sourceId + "_t" + String(def.id ?? index).replace(/\W/g, "_"),
+          c: "More / Custom",
+          n: escapeHtml(def.name),
+          d: escapeHtml((def.description || "") + " (Custom source: " + (sourceName || def.name) + ")"),
+          h: def.headers.map((heading) => escapeHtml(heading)),
+          k: def.headers.map((heading, col) => col == 0 ? null : (def.kinds && def.kinds[col]) || kindFromHeading(heading)),
+          r: def.rows.map((row) => def.headers.map((_, col) => (col == 0 ? escapeHtml(String(row[0] ?? "")) : tableCell(row[col])))),
+        };
+      }
+      
+      function csvToTableDef(text, fallbackName) {
+        const meta = {};
+        const lines = text.replace(/^\uFEFF/, "").split(/\r?\n/);
+        while (lines.length && /^\s*(#.*)?$/.test(lines[0])) {
+          const found = lines.shift().match(/^\s*#\s*(\w+)\s*:\s*(.*)$/);
+          if (found) meta[found[1].toLowerCase()] = found[2].trim();
+        }
+        const body = lines.join("\n");
+        const firstLine = lines.find((line) => line.trim() !== "") || "";
+        const count = (ch) => firstLine.split(ch).length - 1;
+        const delimiter = [",", ";", "\t"].sort((a, b) => count(b) - count(a))[0];
+        const rows = [];
+        let row = [], cell = "", quoted = false;
+        for (let i = 0; i < body.length; i++) {
+          const ch = body[i];
+          if (quoted) {
+            if (ch == '"') {
+              if (body[i + 1] == '"') { cell += '"'; i++; }
+              else quoted = false;
+            } else cell += ch;
+          } else if (ch == '"' && cell === "") quoted = true;
+          else if (ch == delimiter) { row.push(cell); cell = ""; }
+          else if (ch == "\n" || ch == "\r") {
+            if (ch == "\r" && body[i + 1] == "\n") i++;
+            row.push(cell); cell = ""; rows.push(row); row = [];
+          } else cell += ch;
+        }
+        if (quoted) throw new Error("CSV has an unclosed quote");
+        if (cell !== "" || row.length) { row.push(cell); rows.push(row); }
+        const dataRows = rows
+          .map((r) => r.map((c) => c.trim()))
+          .filter((r) => r.some((c) => c !== ""))
+          .map((r) => (delimiter == ";" ? r.map((c) => (/^[-+]?\d+,\d+$/.test(c) ? c.replace(",", ".") : c)) : r));
+        if (dataRows.length < 2) throw new Error("CSV needs a header row and at least one data row");
+        const headerCells = dataRows[0];
+        if (headerCells.length < 2) throw new Error("CSV needs at least two columns (labels + values)");
+        const kinds = headerCells.map((heading) => {
+          const tag = heading.match(/\s*\[([^\]]+)\]\s*$/);
+          return tag ? tag[1].trim() : null;
+        });
+        return {
+          name: meta.name || fallbackName || "Imported table",
+          description: meta.description || "",
+          headers: headerCells.map((heading) => heading.replace(/\s*\[[^\]]+\]\s*$/, "")),
+          kinds,
+          rows: dataRows.slice(1),
+        };
+      }
+      
+      function persistSources() {
+        try {
+          if (localStorage.getItem(STORAGE_KEY_REMEMBER) == "1")
+            localStorage.setItem(
+              STORAGE_KEY_SOURCES,
+              JSON.stringify(customSources.map(({ id, name, type, url, text }) => ({ id, name, type, url, text }))),
+            );
+        } catch (e) {}
+      }
+      
+      function rebuildToolList() {
+        allTools = [
+          ...BUILT_IN_TOOLS,
+          ...REFERENCE_TABLES,
+          SOURCE_MANAGER_ENTRY,
+          ...customSources.flatMap((s) => s.tools),
+        ];
+        renderNav(qs("#q").value);
+      }
+      
+      function makeSource(options) {
+        const source = { ...options };
+        try {
+          const text = String(source.text).replace(/^\uFEFF/, "").trim();
+          if (/^[\[{]/.test(text)) {
+            const json = JSON.parse(text);
+            source.name = source.name || (json && json.name) || source.fname || "Untitled source";
+            source.tools = buildCustomTools(source.id, json);
+          } else {
+            const tableDef = csvToTableDef(text, source.name || source.fname);
+            source.name = source.name || tableDef.name;
+            source.tools = [buildReferenceTable(source.id, tableDef, 0, source.name)];
+          }
+          source.err = null;
+        } catch (e) {
+          source.tools = [];
+          source.err = e.message;
+          source.name = source.name || source.fname || "Invalid source";
+        }
+        return source;
+      }
+      
+      const setSourceMessage = (m) => {
+        const e = qs("#sm");
+        if (e) e.textContent = m;
+      };
+      
+      function describeSource(source) {
+        const tables = source.tools.filter((t) => t.h).length;
+        const tools = source.tools.length - tables;
+        const parts = [];
+        if (tools) parts.push(tools + " tool" + (tools == 1 ? "" : "s"));
+        if (tables) parts.push(tables + " table" + (tables == 1 ? "" : "s"));
+        return parts.join(", ");
+      }
+      
+      function addSource(options) {
+        const source = makeSource({ id: Math.random().toString(36).slice(2, 7), ...options });
+        if (source.err) return setSourceMessage("Not added: " + source.err);
+        customSources.push(source);
+        persistSources();
+        rebuildToolList();
+        renderSourceManager('Added "' + source.name + '" (' + describeSource(source) + ").");
+      }
+      
+      async function fetchSourceText(url) {
+        try {
+          const r = await fetch(url);
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return await r.text();
+        } catch (e) {
+          throw new Error("Could not load the URL (" + e.message + "). The host must allow cross-origin requests (CORS), and this hosted page may block outside requests entirely. Download the file and use Upload or Paste instead.");
+        }
+      }
+      
+      function renderSourceManager(message = "") {
+        qs("#main").innerHTML =
+          `<h2>Manage custom sources</h2><p class="p">Add your own calculations (JSON) or reference tables (CSV or JSON). They appear in the sidebar under More / Custom and work with the chain bin and Send to tool menus. Sources are kept for this visit only unless you choose to remember them.</p><div class="f"><label><input type="checkbox" id="rm" style="min-height:auto;width:auto"> Remember my sources on this device (saves them in your browser local storage – see Privacy)</label></div><div id="sm" role="status" aria-live="polite" class="note" style="color:var(--tx)"></div>
+<div class="grid"><div class="f"><label for="sf">Upload JSON or CSV file(s)</label><input id="sf" type="file" accept=".json,.csv,.txt,application/json,text/csv,text/plain" multiple></div><div class="f"><label for="su">Load from URL</label><div class="row"><input id="su" type="url" placeholder="https://…/tools.json or table.csv"><button id="sub">Add</button></div></div></div>
+<div class="f" style="margin-top:12px"><label for="sp">Or paste JSON or CSV</label><textarea id="sp" rows="6" spellcheck="false"></textarea></div>
+<div class="f" style="margin-top:8px"><label for="sn">Name for pasted data (optional)</label><input id="sn" maxlength="60"><div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><button id="spb">Add pasted data</button><button id="sex">Add example tool source</button><button id="sexcsv">Add example CSV table</button></div></div>
+<div class="res"><h3>Sources</h3><ul class="sl">${customSources.map((s) => `<li><span><b>${escapeHtml(s.name)}</b> <small>${s.type}${s.url ? " · " + escapeHtml(s.url) : ""} · ${s.err ? '<span class="err">' + escapeHtml(s.err) + "</span>" : describeSource(s)}</small></span><span>${s.url ? `<button data-rf="${s.id}">↻ Refresh</button> ` : ""}<button data-rm="${s.id}" aria-label="Remove source ${escapeHtml(s.name)}">Remove</button></span></li>`).join("") || "<li><small>No sources yet.</small></li>"}</ul></div>
+<details class="res"><summary>Formats &amp; examples</summary><h3>CSV reference tables</h3><p class="note">First row = headings, first column = row labels, other columns = values. Put the unit in brackets in the heading, e.g. <code>Sy (MPa)</code>, and MechKit picks the quantity type so the values can be pinned and chained. Add <code>[kind]</code> to override it (e.g. <code>Density [rho]</code>). Optional first lines <code># name: …</code> and <code># description: …</code> set the title. Comma, semicolon or tab separators and quoted fields work; with semicolons, decimal commas are accepted. Text cells are shown but not pinnable.</p><pre>${escapeHtml(EXAMPLE_CSV)}</pre><h3>JSON tools and tables</h3><p class="note">JSON can also hold reference tables: <code>{"tables":[{"name":"…","headers":["Grade","E (GPa)"],"kinds":[null,"E"],"rows":[["S275",210]]}]}</code> (alongside or instead of <code>tools</code>).</p><h3>JSON tools</h3><p class="note">A file is an object with <code>tools</code> (or just one tool, or an array of tools). Each tool has <code>name</code>, <code>inputs</code> and <code>outputs</code>; optional <code>vars</code> are intermediate formulas computed in order. An input is <code>key, label, unit, kind, default</code> or has <code>options</code> (values or [value,label] pairs) for a dropdown. Use <code>kind</code> (e.g. L, F, S, T, E, A, I, N, Pk, C, M) so values chain to matching inputs; omit it to match anything. Formulas support + − * / % ^, comparisons, <code>if(cond,a,b)</code>, pi, e, and sqrt sin cos tan asin acos atan atan2 ln log exp abs min max pow round floor ceil hypot rad deg. Formulas are parsed, never executed as code.</p><pre>${escapeHtml(JSON.stringify(EXAMPLE_SOURCE, null, 1))}</pre></details>`;
+        setSourceMessage(message);
+        try {
+          qs("#rm").checked = localStorage.getItem(STORAGE_KEY_REMEMBER) == "1";
+        } catch (e) {}
+      }
+      
+      document.addEventListener("click", async (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        const d = b.dataset;
+        if (d.rm) {
+          const s = customSources.find((x) => x.id == d.rm);
+          customSources = customSources.filter((x) => x.id != d.rm);
+          persistSources();
+          rebuildToolList();
+          renderSourceManager('Removed "' + s.name + '".');
+          announce("Source removed");
+        } else if (d.rf) {
+          const s = customSources.find((x) => x.id == d.rf);
+          try {
+            const n = makeSource({ ...s, text: await fetchSourceText(s.url) });
+            if (n.err) return setSourceMessage("Refresh failed: " + n.err);
+            customSources[customSources.indexOf(s)] = n;
+            persistSources();
+            rebuildToolList();
+            renderSourceManager('Refreshed "' + n.name + '".');
+          } catch (er) {
+            setSourceMessage(er.message);
+          }
+        } else if (b.id == "sub") {
+          const u = qs("#su").value.trim();
+          if (u)
+            try {
+              addSource({ type: "url", url: u, text: await fetchSourceText(u) });
+            } catch (er) {
+              setSourceMessage(er.message);
+            }
+        } else if (b.id == "spb") {
+          addSource({ type: "pasted", name: qs("#sn").value.trim(), text: qs("#sp").value });
+        } else if (b.id == "sexcsv") {
+          addSource({ type: "example", text: EXAMPLE_CSV });
+        } else if (b.id == "sex") {
+          addSource({ type: "example", text: JSON.stringify(EXAMPLE_SOURCE) });
+        }
+      });
+      
+      document.addEventListener("change", async (e) => {
+        if (e.target.id != "sf") return;
+        for (const f of e.target.files)
+          addSource({
+            type: "file",
+            fname: f.name.replace(/\.(json|csv|txt)$/i, ""),
+            text: await f.text(),
+          });
+        e.target.value = "";
+      });
+      
+      try {
+        if (localStorage.getItem(STORAGE_KEY_REMEMBER) == "1")
+          JSON.parse(localStorage.getItem(STORAGE_KEY_SOURCES) || "[]").forEach((o) =>
+            customSources.push(makeSource(o)),
+          );
+      } catch (e) {}
+      
+      rebuildToolList();
+      renderBin();
+      showTool(location.hash.slice(1) || "conv");
+    </script>
+  </body>
+</html>
